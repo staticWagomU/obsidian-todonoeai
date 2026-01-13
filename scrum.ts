@@ -74,7 +74,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["ItemView API使用"],
   },
   {
-    id: "PBI-004", title: "OpenRouter API連携", status: "in_sprint", priority: "high",
+    id: "PBI-004", title: "OpenRouter API連携", status: "done", priority: "high",
     userStory: { asA: "ユーザー", iWant: "自然言語をtodo.txt形式に変換したい", soThat: "手動フォーマットの手間省ける" },
     acceptanceCriteria: [
       { given: "APIキー設定時", when: "テキスト送信", then: "todo.txt形式レスポンス返却" },
@@ -82,7 +82,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "〇〇の件パターン時", when: "変換実行", then: "+ProjectName形式で付与" },
       { given: "#keyword入力時", when: "変換実行", then: "@keyword形式で付与" },
     ],
-    notes: ["仕様書4.3システムプロンプト使用", "Exponential backoff", "タイムアウト30秒/リクエスト"],
+    notes: ["Sprint 3完了: TDD実装、33テスト通過", "仕様書4.3システムプロンプト使用", "Exponential backoff実装"],
   },
   {
     id: "PBI-005", title: "タスク入力モーダルの実装", status: "draft", priority: "medium",
@@ -131,7 +131,7 @@ const sprint: Sprint = {
   number: 3,
   goal: "OpenRouter APIで自然言語をtodo.txt形式に変換できるようにする",
   pbiId: "PBI-004",
-  status: "review",
+  status: "completed",
   subtasks: [
     // Phase 1: OpenRouterClient基本構造
     { id: "ST-004-01", title: "OpenRouterClient型定義（APIリクエスト/レスポンス型）", status: "done" },
