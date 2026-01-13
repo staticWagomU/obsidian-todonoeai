@@ -124,8 +124,13 @@ const productBacklog: ProductBacklogItem[] = [
       },
       {
         given: "出力設定セクションで",
-        when: "出力ファイルパスを設定する",
-        then: "todo.txtの出力先が設定できる",
+        when: "出力ファイルパスと追記位置を設定する",
+        then: "todo.txtの出力先と追記位置（先頭/末尾）が設定できる",
+      },
+      {
+        given: "コンテキスト設定セクションで",
+        when: "カスタムキーワードを追加する",
+        then: "日本語キーワード→コンテキストのマッピングが保存される",
       },
       {
         given: "設定を変更した時",
@@ -135,7 +140,11 @@ const productBacklog: ProductBacklogItem[] = [
     ],
     status: "draft",
     priority: "critical",
-    notes: ["ObsidianのPluginSettingTab APIを使用"],
+    notes: [
+      "ObsidianのPluginSettingTab APIを使用",
+      "仕様書3.1.2: 追記位置（先頭/末尾）対応",
+      "仕様書3.1.3: カスタムコンテキスト設定対応",
+    ],
   },
 
   // ---- PBI-003: サイドバーパネルUI ----
@@ -213,14 +222,54 @@ const productBacklog: ProductBacklogItem[] = [
     ],
   },
 
-  // ---- PBI-005: コマンドパレット対応 ----
+  // ---- PBI-005: モーダルダイアログ ----
   {
     id: "PBI-005",
+    title: "タスク入力モーダルの実装",
+    userStory: {
+      asA: "キーボード操作を好むユーザー",
+      iWant: "モーダルダイアログでタスクを入力したい",
+      soThat: "作業中に素早くタスクを追加できる",
+    },
+    acceptanceCriteria: [
+      {
+        given: "モーダルが開いた時",
+        when: "タスク入力エリアを表示する",
+        then: "自然言語でタスクを入力できるテキストエリアが表示される",
+      },
+      {
+        given: "タスクを入力した時",
+        when: "生成ボタンをクリックまたはEnterキーを押す",
+        then: "AI変換が実行されプレビューが表示される",
+      },
+      {
+        given: "プレビューを確認した時",
+        when: "追加ボタンをクリックする",
+        then: "todo.txtがファイルに追記されモーダルが閉じる",
+      },
+      {
+        given: "キャンセルしたい時",
+        when: "キャンセルボタンをクリックまたはEscキーを押す",
+        then: "入力内容が破棄されモーダルが閉じる",
+      },
+    ],
+    status: "draft",
+    priority: "medium",
+    notes: [
+      "ObsidianのModal APIを使用",
+      "仕様書2.3.2: プレビュー・編集機能を含む",
+      "src/ui/TodoModal.ts に実装",
+    ],
+  },
+
+  // ---- PBI-006: コマンドパレット対応 ----
+  {
+    id: "PBI-006",
     title: "コマンドパレットからのタスク追加",
     userStory: {
       asA: "キーボード操作を好むユーザー",
       iWant: "コマンドパレットからモーダルを開いてタスクを追加したい",
-      soThat: "マウスを使わずに素早くタスクを入力できる",
+      soThat: "マウスを使わずに素早くタスク入力を開始できる",
     },
     acceptanceCriteria: [
       {
@@ -228,20 +277,60 @@ const productBacklog: ProductBacklogItem[] = [
         when: "todonoeai: Add Todoを選択する",
         then: "タスク入力モーダルが開く",
       },
-      {
-        given: "モーダルでタスクを入力した時",
-        when: "Enterキーまたは送信ボタンを押す",
-        then: "AI変換が実行されプレビューが表示される",
-      },
     ],
     status: "draft",
     priority: "medium",
-    notes: ["Modal APIを使用"],
+    notes: ["addCommand APIを使用", "PBI-005のモーダルを呼び出す"],
   },
 
-  // ---- PBI-006: リボンアイコン ----
+  // ---- PBI-007: ファイル追記機能 ----
   {
-    id: "PBI-006",
+    id: "PBI-007",
+    title: "todo.txtファイル追記機能",
+    userStory: {
+      asA: "タスク管理したいユーザー",
+      iWant: "生成されたtodo.txtを指定ファイルに追記したい",
+      soThat: "タスクが永続的に保存される",
+    },
+    acceptanceCriteria: [
+      {
+        given: "出力ファイルが設定されている時",
+        when: "追加ボタンをクリックする",
+        then: "todo.txt形式のテキストが指定ファイルに追記される",
+      },
+      {
+        given: "追記位置が「末尾」に設定されている時",
+        when: "タスクを追加する",
+        then: "ファイルの末尾に追記される",
+      },
+      {
+        given: "追記位置が「先頭」に設定されている時",
+        when: "タスクを追加する",
+        then: "ファイルの先頭に追記される",
+      },
+      {
+        given: "出力ファイルが存在しない時",
+        when: "タスクを追加する",
+        then: "ファイルが新規作成される",
+      },
+      {
+        given: "出力ファイルが未設定の時",
+        when: "タスクを追加しようとする",
+        then: "エラーメッセージが表示される",
+      },
+    ],
+    status: "draft",
+    priority: "high",
+    notes: [
+      "Obsidian Vault APIを使用",
+      "仕様書3.1.2: 追記位置（先頭/末尾）対応",
+      "仕様書4.4.2: エラーメッセージ対応",
+    ],
+  },
+
+  // ---- PBI-008: リボンアイコン ----
+  {
+    id: "PBI-008",
     title: "リボンアイコンの追加",
     userStory: {
       asA: "視覚的な操作を好むユーザー",
