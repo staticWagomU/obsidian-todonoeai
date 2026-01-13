@@ -49,7 +49,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "設定画面で", when: "設定変更", then: "保存され再起動後も維持" },
       { given: "OpenRouter設定で", when: "APIキー等設定", then: "適切に保存される" },
     ],
-    notes: ["Sprint 1完了: TDD実装、22テスト通過"],
+    notes: ["Sprint 1完了: 22テスト"],
   },
   {
     id: "PBI-002", title: "設定画面UIの実装", status: "done", priority: "critical",
@@ -60,7 +60,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "コンテキスト設定で", when: "キーワード追加", then: "日本語→コンテキストマッピング保存" },
       { given: "設定変更時", when: "画面を閉じる", then: "自動保存される" },
     ],
-    notes: ["Sprint 2完了: TDD実装、26テスト通過"],
+    notes: ["Sprint 2完了: 26テスト"],
   },
   {
     id: "PBI-003", title: "サイドバーパネルUIの実装", status: "draft", priority: "high",
@@ -82,7 +82,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "〇〇の件パターン時", when: "変換実行", then: "+ProjectName形式で付与" },
       { given: "#keyword入力時", when: "変換実行", then: "@keyword形式で付与" },
     ],
-    notes: ["Sprint 3完了: TDD実装、33テスト通過", "仕様書4.3システムプロンプト使用", "Exponential backoff実装"],
+    notes: ["Sprint 3完了: 33テスト", "Exponential backoff実装"],
   },
   {
     id: "PBI-005", title: "タスク入力モーダルの実装", status: "draft", priority: "medium",
@@ -93,7 +93,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "プレビュー確認時", when: "追加クリック", then: "ファイル追記、モーダル閉じる" },
       { given: "キャンセル時", when: "キャンセル/Esc", then: "破棄、モーダル閉じる" },
     ],
-    notes: ["Modal API使用", "src/ui/TodoModal.ts"],
+    notes: ["Modal API使用"],
   },
   {
     id: "PBI-006", title: "コマンドパレット対応", status: "draft", priority: "medium",
@@ -101,7 +101,7 @@ const productBacklog: ProductBacklogItem[] = [
     acceptanceCriteria: [
       { given: "コマンドパレットで", when: "todonoeai: Add Todo選択", then: "モーダルが開く" },
     ],
-    notes: ["addCommand API使用", "PBI-005のモーダル呼出"],
+    notes: ["addCommand API使用", "PBI-005依存"],
   },
   {
     id: "PBI-007", title: "todo.txtファイル追記機能", status: "draft", priority: "high",
@@ -113,7 +113,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "ファイル未存在時", when: "タスク追加", then: "新規作成される" },
       { given: "ファイル未設定時", when: "タスク追加", then: "エラーメッセージ表示" },
     ],
-    notes: ["Vault API使用", "仕様書3.1.2/4.4.2参照"],
+    notes: ["Vault API使用"],
   },
   {
     id: "PBI-008", title: "リボンアイコンの追加", status: "draft", priority: "low",
@@ -126,34 +126,10 @@ const productBacklog: ProductBacklogItem[] = [
   },
 ];
 
-// === SPRINT ===
+// === SPRINT (リセット済み) ===
 const sprint: Sprint = {
-  number: 3,
-  goal: "OpenRouter APIで自然言語をtodo.txt形式に変換できるようにする",
-  pbiId: "PBI-004",
-  status: "completed",
-  subtasks: [
-    // Phase 1: OpenRouterClient基本構造
-    { id: "ST-004-01", title: "OpenRouterClient型定義（APIリクエスト/レスポンス型）", status: "done" },
-    { id: "ST-004-02", title: "OpenRouterClient fetchラッパー基本実装", status: "done" },
-    { id: "ST-004-03", title: "OpenRouterClient基本テスト（RED）", status: "done" },
-    { id: "ST-004-04", title: "OpenRouterClient基本実装（GREEN）", status: "done" },
-    { id: "ST-004-05", title: "OpenRouterClient基本リファクタリング（REFACTOR）", status: "done" },
-    // Phase 2: リトライロジック
-    { id: "ST-004-06", title: "リトライロジックテスト（RED: Exponential backoff、最大3回）", status: "done" },
-    { id: "ST-004-07", title: "リトライロジック実装（GREEN）", status: "done" },
-    { id: "ST-004-08", title: "リトライロジックリファクタリング（REFACTOR）", status: "done" },
-    // Phase 3: システムプロンプトと変換関数
-    { id: "ST-004-09", title: "システムプロンプトテスト（RED: todo.txt形式変換）", status: "done" },
-    { id: "ST-004-10", title: "システムプロンプト実装（GREEN）", status: "done" },
-    { id: "ST-004-11", title: "システムプロンプトリファクタリング（REFACTOR）", status: "done" },
-    // Phase 4: パターンマッチング
-    { id: "ST-004-12", title: "プロジェクト判定テスト（RED: 〇〇の件 → +ProjectName）", status: "done" },
-    { id: "ST-004-13", title: "プロジェクト判定実装（GREEN）", status: "done" },
-    { id: "ST-004-14", title: "コンテキスト判定テスト（RED: #keyword → @keyword）", status: "done" },
-    { id: "ST-004-15", title: "コンテキスト判定実装（GREEN）", status: "done" },
-    { id: "ST-004-16", title: "パターンマッチングリファクタリング（REFACTOR）", status: "done" },
-  ],
+  number: 3, goal: "OpenRouter APIで自然言語をtodo.txt形式に変換できるようにする",
+  pbiId: "PBI-004", status: "completed", subtasks: [],
 };
 
 // === IMPEDIMENTS ===
@@ -161,18 +137,12 @@ const impediments: Impediment[] = [];
 
 // === RETROSPECTIVES ===
 const retrospectives: RetrospectiveInsight[] = [
+  { sprint: 1, insights: ["Keep: TDD、22テスト", "Problem: Lint警告"], actionItems: ["PBI-002 Refinement"] },
+  { sprint: 2, insights: ["Keep: UI TDD、26テスト", "Problem: Lint未対処"], actionItems: ["PBI-004/007 Refinement"] },
   {
-    sprint: 1,
-    insights: ["Keep: TDDで型安全な設定基盤構築、22テスト通過", "Problem: scrum.tsのthenプロパティでLint警告"],
-    actionItems: ["PBI-002のRefinement実施", "UI TDDアプローチ検討"],
-  },
-  {
-    sprint: 2,
-    insights: [
-      "Keep: TDDでUI実装、Obsidian APIモック化、26テスト通過",
-      "Problem: Lint警告未対処、コンテキストUIは基盤のみ",
-    ],
-    actionItems: ["Lint警告修正", "PBI-004/007のRefinement", "動的UI TDDパターン確立"],
+    sprint: 3,
+    insights: ["Keep: API TDD、33テスト、Exponential backoff", "Problem: Lint警告3Sprint継続"],
+    actionItems: ["PBI-007 Refinement", "PBI-003 Refinement", "Lint対処検討"],
   },
 ];
 
