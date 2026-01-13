@@ -74,7 +74,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["ItemView API使用"],
   },
   {
-    id: "PBI-004", title: "OpenRouter API連携", status: "draft", priority: "high",
+    id: "PBI-004", title: "OpenRouter API連携", status: "ready", priority: "high",
     userStory: { asA: "ユーザー", iWant: "自然言語をtodo.txt形式に変換したい", soThat: "手動フォーマットの手間省ける" },
     acceptanceCriteria: [
       { given: "APIキー設定時", when: "テキスト送信", then: "todo.txt形式レスポンス返却" },
@@ -82,7 +82,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "〇〇の件パターン時", when: "変換実行", then: "+ProjectName形式で付与" },
       { given: "#keyword入力時", when: "変換実行", then: "@keyword形式で付与" },
     ],
-    notes: ["仕様書4.3システムプロンプト使用", "Exponential backoff"],
+    notes: ["仕様書4.3システムプロンプト使用", "Exponential backoff", "タイムアウト30秒/リクエスト"],
   },
   {
     id: "PBI-005", title: "タスク入力モーダルの実装", status: "draft", priority: "medium",
