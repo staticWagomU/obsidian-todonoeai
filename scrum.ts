@@ -98,12 +98,13 @@ const productBacklog: ProductBacklogItem[] = [
         then: "それぞれが適切に保存される",
       },
     ],
-    status: "draft",
+    status: "ready",
     priority: "critical",
     notes: [
       "OpenRouterのみ対応（初期スコープ）",
       "src/types/index.ts に型定義を集約",
       "src/settings.ts に設定管理を実装",
+      "Refinement完了: 2026-01-13 - 受け入れ基準明確、依存関係なし、実装スコープ確定",
     ],
   },
 
