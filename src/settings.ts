@@ -41,7 +41,7 @@ export async function loadSettings(loadDataFn: LoadDataFn): Promise<PluginSettin
 
 	return {
 		...DEFAULT_SETTINGS,
-		...(savedData || {}),
+		...savedData,
 	};
 }
 

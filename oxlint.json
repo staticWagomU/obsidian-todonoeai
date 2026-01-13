@@ -19,6 +19,7 @@
     "main.js",
     "esbuild.config.mjs",
     "version-bump.mjs",
-    "refferencies"
+    "refferencies",
+    "scrum.ts"
   ]
 }
