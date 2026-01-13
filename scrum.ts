@@ -71,7 +71,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "AI変換完了時", when: "プレビュー表示", then: "todo.txt形式で編集可能表示" },
       { given: "プレビュー確認時", when: "追加ボタンクリック", then: "ファイルに追記される" },
     ],
-    notes: ["ItemView API使用"],
+    notes: ["ItemView API使用", "PBI-004/007統合"],
   },
   {
     id: "PBI-004", title: "OpenRouter API連携", status: "done", priority: "high",
@@ -82,7 +82,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "〇〇の件パターン時", when: "変換実行", then: "+ProjectName形式で付与" },
       { given: "#keyword入力時", when: "変換実行", then: "@keyword形式で付与" },
     ],
-    notes: ["Sprint 3完了: 33テスト", "Exponential backoff実装"],
+    notes: ["Sprint 3完了: 33テスト"],
   },
   {
     id: "PBI-005", title: "タスク入力モーダルの実装", status: "draft", priority: "medium",
@@ -113,7 +113,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "ファイル未存在時", when: "タスク追加", then: "新規作成される" },
       { given: "ファイル未設定時", when: "タスク追加", then: "エラーメッセージ表示" },
     ],
-    notes: ["Sprint 4完了: 42テスト", "FileService実装完了"],
+    notes: ["Sprint 4完了: 42テスト"],
   },
   {
     id: "PBI-008", title: "リボンアイコンの追加", status: "draft", priority: "low",
@@ -126,18 +126,10 @@ const productBacklog: ProductBacklogItem[] = [
   },
 ];
 
-// === SPRINT ===
+// === SPRINT (リセット済み) ===
 const sprint: Sprint = {
-  number: 4,
-  goal: "生成したtodo.txtをObsidian Vaultに追記できるようにする",
-  pbiId: "PBI-007",
-  status: "completed",
-  subtasks: [
-    { id: "ST-007-1", title: "フェーズ1: FileService基本構造（型定義、Vault APIラッパー）", status: "done" },
-    { id: "ST-007-2", title: "フェーズ2: 末尾追記機能（RED → GREEN → REFACTOR）", status: "done" },
-    { id: "ST-007-3", title: "フェーズ3: 先頭追記機能（RED → GREEN → REFACTOR）", status: "done" },
-    { id: "ST-007-4", title: "フェーズ4: ファイル新規作成・エラーハンドリング（RED → GREEN → REFACTOR）", status: "done" },
-  ],
+  number: 4, goal: "生成したtodo.txtをObsidian Vaultに追記できるようにする",
+  pbiId: "PBI-007", status: "completed", subtasks: [],
 };
 
 // === IMPEDIMENTS ===
@@ -147,16 +139,8 @@ const impediments: Impediment[] = [];
 const retrospectives: RetrospectiveInsight[] = [
   { sprint: 1, insights: ["Keep: TDD、22テスト", "Problem: Lint警告"], actionItems: ["PBI-002 Refinement"] },
   { sprint: 2, insights: ["Keep: UI TDD、26テスト", "Problem: Lint未対処"], actionItems: ["PBI-004/007 Refinement"] },
-  {
-    sprint: 3,
-    insights: ["Keep: API TDD、33テスト、Exponential backoff", "Problem: Lint警告3Sprint継続"],
-    actionItems: ["PBI-007 Refinement", "PBI-003 Refinement", "Lint対処検討"],
-  },
-  {
-    sprint: 4,
-    insights: ["Keep: FileService TDD、42テスト、4フェーズ完了", "Problem: Lint警告（scrum.ts内のthenプロパティ）27件継続"],
-    actionItems: ["PBI-003 Refinement", "Lint警告対応検討（scrum.ts設計見直し）"],
-  },
+  { sprint: 3, insights: ["Keep: API TDD、33テスト", "Problem: Lint警告継続"], actionItems: ["PBI-007/003 Refinement"] },
+  { sprint: 4, insights: ["Keep: FileService TDD、42テスト、Subtask最適化", "Problem: Lint警告4Sprint継続"], actionItems: ["PBI-003 Refinement", "UI層実装へ"] },
 ];
 
 // === OUTPUT ===
