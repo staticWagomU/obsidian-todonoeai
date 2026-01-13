@@ -33,4 +33,39 @@ export class FileService {
 		this.vault = config.vault;
 		this.settings = config.settings;
 	}
+
+	/**
+	 * ファイルに内容を追記する
+	 *
+	 * @param content - 追記する内容
+	 * @returns 追記結果
+	 */
+	async appendToFile(content: string): Promise<AppendResult> {
+		try {
+			const filePath = this.settings.outputFilePath;
+			const fileExists = await this.vault.adapter.exists(filePath);
+
+			if (fileExists) {
+				const existingContent = await this.vault.adapter.read(filePath);
+				let newContent: string;
+
+				if (this.settings.appendPosition === "bottom") {
+					// 末尾追記
+					newContent = existingContent ? `${existingContent}\n${content}` : content;
+				} else {
+					// 先頭追記（後で実装）
+					newContent = content;
+				}
+
+				await this.vault.adapter.write(filePath, newContent);
+			}
+
+			return { success: true };
+		} catch (error) {
+			return {
+				success: false,
+				error: error instanceof Error ? error.message : "Unknown error",
+			};
+		}
+	}
 }
