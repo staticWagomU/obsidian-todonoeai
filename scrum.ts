@@ -131,7 +131,7 @@ const sprint: Sprint = {
   number: 2,
   goal: "Obsidian設定画面でOpenRouter設定を行えるようにする",
   pbiId: "PBI-002",
-  status: "review",
+  status: "completed",
   subtasks: [
     // フェーズ1: SettingsTabクラスの基本構造
     { id: "ST-002-01", title: "RED: SettingsTabクラス基本構造のテスト作成", status: "done" },
