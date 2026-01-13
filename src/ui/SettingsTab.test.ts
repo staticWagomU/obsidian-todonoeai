@@ -36,4 +36,34 @@ describe("TodonoeaiSettingsTab", () => {
 			expect(typeof settingsTab.display).toBe("function");
 		});
 	});
+
+	describe("OpenRouter設定UI", () => {
+		it("display を呼ぶと OpenRouter 設定セクションのヘッダーが作成されるべき", () => {
+			const settingsTab = new TodonoeaiSettingsTab(mockApp, mockPlugin);
+			const mockCreateEl = vi.fn();
+			settingsTab.containerEl = {
+				empty: vi.fn(),
+				createEl: mockCreateEl,
+			} as unknown as HTMLElement;
+
+			settingsTab.display();
+
+			expect(mockCreateEl).toHaveBeenCalledWith("h2", {
+				text: "OpenRouter Settings",
+			});
+		});
+
+		it("API Key、Base URL、Model の3つの設定項目が作成されるべき", async () => {
+			const settingsTab = new TodonoeaiSettingsTab(mockApp, mockPlugin);
+
+			// SettingクラスのインスタンスをカウントするためのSpy
+			const obsidianModule = await import("obsidian");
+			const SettingSpy = vi.spyOn(obsidianModule, "Setting");
+
+			settingsTab.display();
+
+			// Setting が 3回呼ばれること（APIキー、BaseURL、Model）
+			expect(SettingSpy).toHaveBeenCalledTimes(3);
+		});
+	});
 });
