@@ -52,7 +52,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 1完了: TDDで実装、22テスト通過"],
   },
   {
-    id: "PBI-002", title: "設定画面UIの実装", status: "in_sprint", priority: "critical",
+    id: "PBI-002", title: "設定画面UIの実装", status: "done", priority: "critical",
     userStory: { asA: "ユーザー", iWant: "Obsidian設定画面でAI設定を行いたい", soThat: "APIキーやモデルを簡単に設定できる" },
     acceptanceCriteria: [
       { given: "設定画面を開いた時", when: "OpenRouter設定表示", then: "APIキー、モデル選択、Base URL入力欄表示" },
@@ -60,7 +60,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "コンテキスト設定で", when: "キーワード追加", then: "日本語→コンテキストマッピング保存" },
       { given: "設定変更時", when: "画面を閉じる", then: "自動保存される" },
     ],
-    notes: ["PluginSettingTab API使用", "仕様書3.1.2/3.1.3参照", "Refined: 2026-01-13 - 依存PBI-001完了確認、AC明確性確認完了"],
+    notes: ["PluginSettingTab API使用", "仕様書3.1.2/3.1.3参照", "Refined: 2026-01-13 - 依存PBI-001完了確認、AC明確性確認完了", "Sprint 2完了: 2026-01-14 - TDDで全12 Subtasks完了、26テスト合格、DoD達成"],
   },
   {
     id: "PBI-003", title: "サイドバーパネルUIの実装", status: "draft", priority: "high",
@@ -131,24 +131,24 @@ const sprint: Sprint = {
   number: 2,
   goal: "Obsidian設定画面でOpenRouter設定を行えるようにする",
   pbiId: "PBI-002",
-  status: "active",
+  status: "review",
   subtasks: [
     // フェーズ1: SettingsTabクラスの基本構造
-    { id: "ST-002-01", title: "RED: SettingsTabクラス基本構造のテスト作成", status: "pending" },
-    { id: "ST-002-02", title: "GREEN: SettingsTabクラス実装（PluginSettingTab継承）", status: "pending" },
-    { id: "ST-002-03", title: "REFACTOR: SettingsTabクラスのリファクタリング", status: "pending" },
+    { id: "ST-002-01", title: "RED: SettingsTabクラス基本構造のテスト作成", status: "done" },
+    { id: "ST-002-02", title: "GREEN: SettingsTabクラス実装（PluginSettingTab継承）", status: "done" },
+    { id: "ST-002-03", title: "REFACTOR: SettingsTabクラスのリファクタリング", status: "done" },
     // フェーズ2: OpenRouter設定UI
-    { id: "ST-002-04", title: "RED: OpenRouter設定UI（APIキー、Base URL、モデル）のテスト作成", status: "pending" },
-    { id: "ST-002-05", title: "GREEN: OpenRouter設定UI実装", status: "pending" },
-    { id: "ST-002-06", title: "REFACTOR: OpenRouter設定UIのリファクタリング", status: "pending" },
+    { id: "ST-002-04", title: "RED: OpenRouter設定UI（APIキー、Base URL、モデル）のテスト作成", status: "done" },
+    { id: "ST-002-05", title: "GREEN: OpenRouter設定UI実装", status: "done" },
+    { id: "ST-002-06", title: "REFACTOR: OpenRouter設定UIのリファクタリング", status: "done" },
     // フェーズ3: 出力設定UI
-    { id: "ST-002-07", title: "RED: 出力設定UI（ファイルパス、追記位置）のテスト作成", status: "pending" },
-    { id: "ST-002-08", title: "GREEN: 出力設定UI実装", status: "pending" },
-    { id: "ST-002-09", title: "REFACTOR: 出力設定UIのリファクタリング", status: "pending" },
+    { id: "ST-002-07", title: "RED: 出力設定UI（ファイルパス、追記位置）のテスト作成", status: "done" },
+    { id: "ST-002-08", title: "GREEN: 出力設定UI実装", status: "done" },
+    { id: "ST-002-09", title: "REFACTOR: 出力設定UIのリファクタリング", status: "done" },
     // フェーズ4: コンテキストキーワード設定UI
-    { id: "ST-002-10", title: "RED: コンテキストキーワード設定UIのテスト作成", status: "pending" },
-    { id: "ST-002-11", title: "GREEN: コンテキストキーワード設定UI実装", status: "pending" },
-    { id: "ST-002-12", title: "REFACTOR: コンテキストキーワード設定UIのリファクタリング", status: "pending" },
+    { id: "ST-002-10", title: "RED: コンテキストキーワード設定UIのテスト作成", status: "done" },
+    { id: "ST-002-11", title: "GREEN: コンテキストキーワード設定UI実装", status: "done" },
+    { id: "ST-002-12", title: "REFACTOR: コンテキストキーワード設定UIのリファクタリング", status: "done" },
   ],
 };
 
