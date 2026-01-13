@@ -74,7 +74,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["ItemView API使用"],
   },
   {
-    id: "PBI-004", title: "OpenRouter API連携", status: "ready", priority: "high",
+    id: "PBI-004", title: "OpenRouter API連携", status: "in_sprint", priority: "high",
     userStory: { asA: "ユーザー", iWant: "自然言語をtodo.txt形式に変換したい", soThat: "手動フォーマットの手間省ける" },
     acceptanceCriteria: [
       { given: "APIキー設定時", when: "テキスト送信", then: "todo.txt形式レスポンス返却" },
@@ -126,10 +126,34 @@ const productBacklog: ProductBacklogItem[] = [
   },
 ];
 
-// === SPRINT (リセット済み) ===
+// === SPRINT ===
 const sprint: Sprint = {
-  number: 2, goal: "Obsidian設定画面でOpenRouter設定を行えるようにする", pbiId: "PBI-002",
-  status: "completed", subtasks: [],
+  number: 3,
+  goal: "OpenRouter APIで自然言語をtodo.txt形式に変換できるようにする",
+  pbiId: "PBI-004",
+  status: "active",
+  subtasks: [
+    // Phase 1: OpenRouterClient基本構造
+    { id: "ST-004-01", title: "OpenRouterClient型定義（APIリクエスト/レスポンス型）", status: "pending" },
+    { id: "ST-004-02", title: "OpenRouterClient fetchラッパー基本実装", status: "pending" },
+    { id: "ST-004-03", title: "OpenRouterClient基本テスト（RED）", status: "pending" },
+    { id: "ST-004-04", title: "OpenRouterClient基本実装（GREEN）", status: "pending" },
+    { id: "ST-004-05", title: "OpenRouterClient基本リファクタリング（REFACTOR）", status: "pending" },
+    // Phase 2: リトライロジック
+    { id: "ST-004-06", title: "リトライロジックテスト（RED: Exponential backoff、最大3回）", status: "pending" },
+    { id: "ST-004-07", title: "リトライロジック実装（GREEN）", status: "pending" },
+    { id: "ST-004-08", title: "リトライロジックリファクタリング（REFACTOR）", status: "pending" },
+    // Phase 3: システムプロンプトと変換関数
+    { id: "ST-004-09", title: "システムプロンプトテスト（RED: todo.txt形式変換）", status: "pending" },
+    { id: "ST-004-10", title: "システムプロンプト実装（GREEN）", status: "pending" },
+    { id: "ST-004-11", title: "システムプロンプトリファクタリング（REFACTOR）", status: "pending" },
+    // Phase 4: パターンマッチング
+    { id: "ST-004-12", title: "プロジェクト判定テスト（RED: 〇〇の件 → +ProjectName）", status: "pending" },
+    { id: "ST-004-13", title: "プロジェクト判定実装（GREEN）", status: "pending" },
+    { id: "ST-004-14", title: "コンテキスト判定テスト（RED: #keyword → @keyword）", status: "pending" },
+    { id: "ST-004-15", title: "コンテキスト判定実装（GREEN）", status: "pending" },
+    { id: "ST-004-16", title: "パターンマッチングリファクタリング（REFACTOR）", status: "pending" },
+  ],
 };
 
 // === IMPEDIMENTS ===
