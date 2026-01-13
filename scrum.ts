@@ -52,7 +52,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 1完了: TDDで実装、22テスト通過"],
   },
   {
-    id: "PBI-002", title: "設定画面UIの実装", status: "ready", priority: "critical",
+    id: "PBI-002", title: "設定画面UIの実装", status: "in_sprint", priority: "critical",
     userStory: { asA: "ユーザー", iWant: "Obsidian設定画面でAI設定を行いたい", soThat: "APIキーやモデルを簡単に設定できる" },
     acceptanceCriteria: [
       { given: "設定画面を開いた時", when: "OpenRouter設定表示", then: "APIキー、モデル選択、Base URL入力欄表示" },
@@ -126,10 +126,30 @@ const productBacklog: ProductBacklogItem[] = [
   },
 ];
 
-// === SPRINT (次Sprint用にリセット) ===
+// === SPRINT ===
 const sprint: Sprint = {
-  number: 1, goal: "型安全なプラグイン設定基盤を構築する", pbiId: "PBI-001",
-  status: "completed", subtasks: [],
+  number: 2,
+  goal: "Obsidian設定画面でOpenRouter設定を行えるようにする",
+  pbiId: "PBI-002",
+  status: "active",
+  subtasks: [
+    // フェーズ1: SettingsTabクラスの基本構造
+    { id: "ST-002-01", title: "RED: SettingsTabクラス基本構造のテスト作成", status: "pending" },
+    { id: "ST-002-02", title: "GREEN: SettingsTabクラス実装（PluginSettingTab継承）", status: "pending" },
+    { id: "ST-002-03", title: "REFACTOR: SettingsTabクラスのリファクタリング", status: "pending" },
+    // フェーズ2: OpenRouter設定UI
+    { id: "ST-002-04", title: "RED: OpenRouter設定UI（APIキー、Base URL、モデル）のテスト作成", status: "pending" },
+    { id: "ST-002-05", title: "GREEN: OpenRouter設定UI実装", status: "pending" },
+    { id: "ST-002-06", title: "REFACTOR: OpenRouter設定UIのリファクタリング", status: "pending" },
+    // フェーズ3: 出力設定UI
+    { id: "ST-002-07", title: "RED: 出力設定UI（ファイルパス、追記位置）のテスト作成", status: "pending" },
+    { id: "ST-002-08", title: "GREEN: 出力設定UI実装", status: "pending" },
+    { id: "ST-002-09", title: "REFACTOR: 出力設定UIのリファクタリング", status: "pending" },
+    // フェーズ4: コンテキストキーワード設定UI
+    { id: "ST-002-10", title: "RED: コンテキストキーワード設定UIのテスト作成", status: "pending" },
+    { id: "ST-002-11", title: "GREEN: コンテキストキーワード設定UI実装", status: "pending" },
+    { id: "ST-002-12", title: "REFACTOR: コンテキストキーワード設定UIのリファクタリング", status: "pending" },
+  ],
 };
 
 // === IMPEDIMENTS ===
