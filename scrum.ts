@@ -131,7 +131,7 @@ const sprint: Sprint = {
   number: 4,
   goal: "生成したtodo.txtをObsidian Vaultに追記できるようにする",
   pbiId: "PBI-007",
-  status: "review",
+  status: "completed",
   subtasks: [
     { id: "ST-007-1", title: "フェーズ1: FileService基本構造（型定義、Vault APIラッパー）", status: "done" },
     { id: "ST-007-2", title: "フェーズ2: 末尾追記機能（RED → GREEN → REFACTOR）", status: "done" },
@@ -151,6 +151,11 @@ const retrospectives: RetrospectiveInsight[] = [
     sprint: 3,
     insights: ["Keep: API TDD、33テスト、Exponential backoff", "Problem: Lint警告3Sprint継続"],
     actionItems: ["PBI-007 Refinement", "PBI-003 Refinement", "Lint対処検討"],
+  },
+  {
+    sprint: 4,
+    insights: ["Keep: FileService TDD、42テスト、4フェーズ完了", "Problem: Lint警告（scrum.ts内のthenプロパティ）27件継続"],
+    actionItems: ["PBI-003 Refinement", "Lint警告対応検討（scrum.ts設計見直し）"],
   },
 ];
 
