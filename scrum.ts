@@ -104,7 +104,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["addCommand API使用", "PBI-005依存"],
   },
   {
-    id: "PBI-007", title: "todo.txtファイル追記機能", status: "draft", priority: "high",
+    id: "PBI-007", title: "todo.txtファイル追記機能", status: "ready", priority: "high",
     userStory: { asA: "ユーザー", iWant: "生成したtodo.txtを指定ファイルに追記したい", soThat: "タスクが永続保存される" },
     acceptanceCriteria: [
       { given: "出力ファイル設定時", when: "追加クリック", then: "ファイルに追記される" },
@@ -113,7 +113,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "ファイル未存在時", when: "タスク追加", then: "新規作成される" },
       { given: "ファイル未設定時", when: "タスク追加", then: "エラーメッセージ表示" },
     ],
-    notes: ["Vault API使用"],
+    notes: ["Vault API使用", "PBI-001/002依存完了", "Sprint 4候補"],
   },
   {
     id: "PBI-008", title: "リボンアイコンの追加", status: "draft", priority: "low",
