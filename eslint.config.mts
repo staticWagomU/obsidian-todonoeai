@@ -27,10 +27,18 @@ export default tseslint.config(
 			"no-console": "off",
 		},
 	},
+	{
+		files: ["src/ui/SettingsTab.ts"],
+		rules: {
+			// 固有名詞（OpenRouter, API, URL等）のsentence caseチェックを無効化
+			"obsidianmd/ui/sentence-case": "off",
+		},
+	},
 	globalIgnores([
 		"node_modules",
 		"dist",
 		"vite.config.ts",
+		"vitest.config.ts",
 		"version-bump.mjs",
 		"versions.json",
 		"main.js",

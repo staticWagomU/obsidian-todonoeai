@@ -24,15 +24,14 @@ export class TodonoeaiSettingsTab extends PluginSettingTab {
 		containerEl.empty();
 
 		// OpenRouter設定セクション
-		containerEl.createEl("h2", { text: "OpenRouter Settings" });
+		new Setting(containerEl).setName("OpenRouter").setHeading();
 
 		// APIキー設定
 		new Setting(containerEl)
-			.setName("API Key")
-			.setDesc("OpenRouter API キー")
+			.setName("API key")
+			.setDesc("Your OpenRouter API key")
 			.addText((text) =>
 				text
-					.setPlaceholder("sk-...")
 					.setValue(this.plugin.settings.apiKey)
 					.onChange(async (value) => {
 						this.plugin.settings.apiKey = value;
@@ -43,10 +42,9 @@ export class TodonoeaiSettingsTab extends PluginSettingTab {
 		// Base URL設定
 		new Setting(containerEl)
 			.setName("Base URL")
-			.setDesc("OpenRouter API Base URL")
+			.setDesc("Base URL for OpenRouter API")
 			.addText((text) =>
 				text
-					.setPlaceholder("https://openrouter.ai/api/v1")
 					.setValue(this.plugin.settings.baseUrl)
 					.onChange(async (value) => {
 						this.plugin.settings.baseUrl = value;
@@ -57,10 +55,9 @@ export class TodonoeaiSettingsTab extends PluginSettingTab {
 		// モデル設定
 		new Setting(containerEl)
 			.setName("Model")
-			.setDesc("使用するモデル名")
+			.setDesc("Model name to use for AI generation")
 			.addText((text) =>
 				text
-					.setPlaceholder("anthropic/claude-3.5-sonnet")
 					.setValue(this.plugin.settings.model)
 					.onChange(async (value) => {
 						this.plugin.settings.model = value;
@@ -69,15 +66,14 @@ export class TodonoeaiSettingsTab extends PluginSettingTab {
 			);
 
 		// 出力設定セクション
-		containerEl.createEl("h2", { text: "Output Settings" });
+		new Setting(containerEl).setName("Output").setHeading();
 
 		// 出力ファイルパス設定
 		new Setting(containerEl)
-			.setName("Output File Path")
-			.setDesc("todo.txt 出力先ファイルパス")
+			.setName("File path")
+			.setDesc("File path for todo.txt output")
 			.addText((text) =>
 				text
-					.setPlaceholder("todo.txt")
 					.setValue(this.plugin.settings.outputFilePath)
 					.onChange(async (value) => {
 						this.plugin.settings.outputFilePath = value;
@@ -87,12 +83,12 @@ export class TodonoeaiSettingsTab extends PluginSettingTab {
 
 		// 追記位置設定
 		new Setting(containerEl)
-			.setName("Append Position")
-			.setDesc("タスクの追記位置")
+			.setName("Append position")
+			.setDesc("Position to append new tasks")
 			.addDropdown((dropdown) =>
 				dropdown
-					.addOption("top", "Top (先頭)")
-					.addOption("bottom", "Bottom (末尾)")
+					.addOption("top", "Top")
+					.addOption("bottom", "Bottom")
 					.setValue(this.plugin.settings.appendPosition)
 					.onChange(async (value) => {
 						this.plugin.settings.appendPosition = value as "top" | "bottom";
@@ -101,11 +97,11 @@ export class TodonoeaiSettingsTab extends PluginSettingTab {
 			);
 
 		// コンテキストキーワード設定セクション
-		containerEl.createEl("h2", { text: "Context Keywords" });
+		new Setting(containerEl).setName("Context keywords").setHeading();
 
 		// 説明文
 		containerEl.createEl("p", {
-			text: "カスタムコンテキストキーワードのマッピングを設定します。（キーワード追加/削除機能は今後実装予定）",
+			text: "Configure custom context keyword mappings (add/delete functionality will be implemented in the future).",
 		});
 	}
 }

@@ -28,6 +28,7 @@ export class PluginSettingTab {
 export class Setting {
 	setName = vi.fn().mockReturnThis();
 	setDesc = vi.fn().mockReturnThis();
+	setHeading = vi.fn().mockReturnThis();
 	addText = vi.fn((callback?: (text: TextComponent) => unknown) => {
 		if (callback) {
 			const textComponent = new TextComponent();
