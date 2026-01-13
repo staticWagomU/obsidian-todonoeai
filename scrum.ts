@@ -1,530 +1,156 @@
 /**
  * AI-Agentic Scrum Dashboard - Single Source of Truth
- *
- * This file is the central artifact for all Scrum activities.
- * All agents read from and write to this file.
- *
  * Run: deno run scrum.ts | jq '.'
  */
 
-// ============================================================================
-// PRODUCT VISION
-// ============================================================================
-
+// === PRODUCT VISION ===
 const productVision = {
   name: "todonoeai",
   tagline: "todo + の + AI = todoのAI",
   goal: "ユーザーが自然言語でタスクを入力すると、生成AIがtodo.txt形式に変換し、指定されたファイルに追記するObsidianプラグイン",
   targetUsers: ["Obsidianユーザー", "タスク管理を効率化したい人"],
-  successMetrics: [
-    "自然言語入力からtodo.txt形式への正確な変換",
-    "OpenRouter経由でのAI連携の安定動作",
-    "直感的なサイドバーUIでのタスク入力体験",
-  ],
+  successMetrics: ["自然言語→todo.txt変換", "OpenRouter連携", "サイドバーUI"],
 } as const;
 
-// ============================================================================
-// DEFINITION OF DONE
-// ============================================================================
-
+// === DEFINITION OF DONE ===
 const definitionOfDone = {
-  description: "全てのPBIが満たすべき完了基準",
-  criteria: [
-    "全てのテストが通過している",
-    "型チェックがエラーなし",
-    "Lintがエラーなし",
-    "ビルドが成功する",
-    "受け入れ基準を全て満たしている",
-  ],
-  verificationCommands: [
-    "pnpm test:run",
-    "pnpm typecheck",
-    "pnpm lint",
-    "pnpm build",
-  ],
+  criteria: ["テスト通過", "型チェックOK", "LintOK", "ビルド成功", "受け入れ基準達成"],
+  verificationCommands: ["pnpm test:run", "pnpm typecheck", "pnpm lint", "pnpm build"],
 } as const;
 
-// ============================================================================
-// PRODUCT BACKLOG
-// ============================================================================
-
+// === TYPES ===
 type PBIStatus = "draft" | "ready" | "in_sprint" | "done" | "cancelled";
 type Priority = "critical" | "high" | "medium" | "low";
-
-interface AcceptanceCriterion {
-  given: string;
-  when: string;
-  then: string;
-}
-
-interface ProductBacklogItem {
-  id: string;
-  title: string;
-  userStory: {
-    asA: string;
-    iWant: string;
-    soThat: string;
-  };
-  acceptanceCriteria: AcceptanceCriterion[];
-  status: PBIStatus;
-  priority: Priority;
-  notes?: string[];
-}
-
-const productBacklog: ProductBacklogItem[] = [
-  // ---- PBI-001: 型定義・設定基盤 ----
-  {
-    id: "PBI-001",
-    title: "型定義・設定基盤の構築",
-    userStory: {
-      asA: "開発者",
-      iWant: "型安全なプラグイン設定と基本型定義を持つ",
-      soThat: "一貫性のある開発を行える",
-    },
-    acceptanceCriteria: [
-      {
-        given: "プラグインがロードされた時",
-        when: "設定ファイルを読み込む",
-        then: "デフォルト設定が型安全に初期化される",
-      },
-      {
-        given: "設定画面を開いた時",
-        when: "各設定項目を変更する",
-        then: "変更が保存され、再起動後も維持される",
-      },
-      {
-        given: "OpenRouter設定として",
-        when: "APIキー、Base URL、モデル名を設定する",
-        then: "それぞれが適切に保存される",
-      },
-    ],
-    status: "done",
-    priority: "critical",
-    notes: [
-      "OpenRouterのみ対応（初期スコープ）",
-      "src/types/index.ts に型定義を集約",
-      "src/settings.ts に設定管理を実装",
-      "Refinement完了: 2026-01-13 - 受け入れ基準明確、依存関係なし、実装スコープ確定",
-      "Sprint 1に取り込み: 2026-01-13",
-      "Sprint 1完了: 2026-01-13 - TDDで型定義・DEFAULT_SETTINGS・loadSettings/saveSettings実装完了",
-      "DoD達成: 全テスト通過(22 tests)、型チェックOK、LintOK、ビルドOK",
-      "Sprint Review完了: 2026-01-13 - 全受け入れ基準達成、Sprint 1をcompletedに移行",
-    ],
-  },
-
-  // ---- PBI-002: 設定画面UI ----
-  {
-    id: "PBI-002",
-    title: "設定画面UIの実装",
-    userStory: {
-      asA: "プラグインユーザー",
-      iWant: "Obsidianの設定画面でAI設定を行いたい",
-      soThat: "APIキーやモデルを簡単に設定できる",
-    },
-    acceptanceCriteria: [
-      {
-        given: "設定画面を開いた時",
-        when: "OpenRouter設定セクションを表示する",
-        then: "APIキー（パスワード形式）、モデル選択、Base URL入力欄が表示される",
-      },
-      {
-        given: "出力設定セクションで",
-        when: "出力ファイルパスと追記位置を設定する",
-        then: "todo.txtの出力先と追記位置（先頭/末尾）が設定できる",
-      },
-      {
-        given: "コンテキスト設定セクションで",
-        when: "カスタムキーワードを追加する",
-        then: "日本語キーワード→コンテキストのマッピングが保存される",
-      },
-      {
-        given: "設定を変更した時",
-        when: "設定画面を閉じる",
-        then: "変更が自動保存される",
-      },
-    ],
-    status: "draft",
-    priority: "critical",
-    notes: [
-      "ObsidianのPluginSettingTab APIを使用",
-      "仕様書3.1.2: 追記位置（先頭/末尾）対応",
-      "仕様書3.1.3: カスタムコンテキスト設定対応",
-    ],
-  },
-
-  // ---- PBI-003: サイドバーパネルUI ----
-  {
-    id: "PBI-003",
-    title: "サイドバーパネルUIの実装",
-    userStory: {
-      asA: "タスク入力したいユーザー",
-      iWant: "サイドバーに常駐するパネルからタスクを入力したい",
-      soThat: "作業を中断せずにタスクを追加できる",
-    },
-    acceptanceCriteria: [
-      {
-        given: "Obsidianを起動した時",
-        when: "サイドバーにtodonoeaiパネルを開く",
-        then: "タスク入力エリアが表示される",
-      },
-      {
-        given: "入力エリアに自然言語でタスクを入力した時",
-        when: "生成ボタンをクリックする",
-        then: "AI変換リクエストが送信される",
-      },
-      {
-        given: "AI変換が完了した時",
-        when: "プレビューエリアに結果が表示される",
-        then: "todo.txt形式のテキストが編集可能な状態で表示される",
-      },
-      {
-        given: "プレビューを確認した時",
-        when: "追加ボタンをクリックする",
-        then: "指定ファイルにtodo.txtが追記される",
-      },
-    ],
-    status: "draft",
-    priority: "high",
-    notes: ["ItemView APIを使用", "仕様書2.4参照"],
-  },
-
-  // ---- PBI-004: OpenRouter連携 ----
-  {
-    id: "PBI-004",
-    title: "OpenRouter API連携",
-    userStory: {
-      asA: "タスク入力したいユーザー",
-      iWant: "自然言語入力をtodo.txt形式に変換したい",
-      soThat: "手動でフォーマットする手間を省ける",
-    },
-    acceptanceCriteria: [
-      {
-        given: "APIキーが設定されている時",
-        when: "自然言語テキストを送信する",
-        then: "todo.txt形式のレスポンスが返される",
-      },
-      {
-        given: "APIエラーが発生した時",
-        when: "自動リトライが実行される",
-        then: "最大3回までリトライし、失敗時はエラーメッセージを表示する",
-      },
-      {
-        given: "プロジェクト判定パターン（〇〇の件）がある時",
-        when: "変換を実行する",
-        then: "+ProjectName形式でプロジェクトが付与される",
-      },
-      {
-        given: "#keywordが入力にある時",
-        when: "変換を実行する",
-        then: "@keyword形式でコンテキストが付与される",
-      },
-    ],
-    status: "draft",
-    priority: "high",
-    notes: [
-      "仕様書4.3のシステムプロンプトを使用",
-      "Exponential backoffでリトライ",
-    ],
-  },
-
-  // ---- PBI-005: モーダルダイアログ ----
-  {
-    id: "PBI-005",
-    title: "タスク入力モーダルの実装",
-    userStory: {
-      asA: "キーボード操作を好むユーザー",
-      iWant: "モーダルダイアログでタスクを入力したい",
-      soThat: "作業中に素早くタスクを追加できる",
-    },
-    acceptanceCriteria: [
-      {
-        given: "モーダルが開いた時",
-        when: "タスク入力エリアを表示する",
-        then: "自然言語でタスクを入力できるテキストエリアが表示される",
-      },
-      {
-        given: "タスクを入力した時",
-        when: "生成ボタンをクリックまたはEnterキーを押す",
-        then: "AI変換が実行されプレビューが表示される",
-      },
-      {
-        given: "プレビューを確認した時",
-        when: "追加ボタンをクリックする",
-        then: "todo.txtがファイルに追記されモーダルが閉じる",
-      },
-      {
-        given: "キャンセルしたい時",
-        when: "キャンセルボタンをクリックまたはEscキーを押す",
-        then: "入力内容が破棄されモーダルが閉じる",
-      },
-    ],
-    status: "draft",
-    priority: "medium",
-    notes: [
-      "ObsidianのModal APIを使用",
-      "仕様書2.3.2: プレビュー・編集機能を含む",
-      "src/ui/TodoModal.ts に実装",
-    ],
-  },
-
-  // ---- PBI-006: コマンドパレット対応 ----
-  {
-    id: "PBI-006",
-    title: "コマンドパレットからのタスク追加",
-    userStory: {
-      asA: "キーボード操作を好むユーザー",
-      iWant: "コマンドパレットからモーダルを開いてタスクを追加したい",
-      soThat: "マウスを使わずに素早くタスク入力を開始できる",
-    },
-    acceptanceCriteria: [
-      {
-        given: "コマンドパレットを開いた時",
-        when: "todonoeai: Add Todoを選択する",
-        then: "タスク入力モーダルが開く",
-      },
-    ],
-    status: "draft",
-    priority: "medium",
-    notes: ["addCommand APIを使用", "PBI-005のモーダルを呼び出す"],
-  },
-
-  // ---- PBI-007: ファイル追記機能 ----
-  {
-    id: "PBI-007",
-    title: "todo.txtファイル追記機能",
-    userStory: {
-      asA: "タスク管理したいユーザー",
-      iWant: "生成されたtodo.txtを指定ファイルに追記したい",
-      soThat: "タスクが永続的に保存される",
-    },
-    acceptanceCriteria: [
-      {
-        given: "出力ファイルが設定されている時",
-        when: "追加ボタンをクリックする",
-        then: "todo.txt形式のテキストが指定ファイルに追記される",
-      },
-      {
-        given: "追記位置が「末尾」に設定されている時",
-        when: "タスクを追加する",
-        then: "ファイルの末尾に追記される",
-      },
-      {
-        given: "追記位置が「先頭」に設定されている時",
-        when: "タスクを追加する",
-        then: "ファイルの先頭に追記される",
-      },
-      {
-        given: "出力ファイルが存在しない時",
-        when: "タスクを追加する",
-        then: "ファイルが新規作成される",
-      },
-      {
-        given: "出力ファイルが未設定の時",
-        when: "タスクを追加しようとする",
-        then: "エラーメッセージが表示される",
-      },
-    ],
-    status: "draft",
-    priority: "high",
-    notes: [
-      "Obsidian Vault APIを使用",
-      "仕様書3.1.2: 追記位置（先頭/末尾）対応",
-      "仕様書4.4.2: エラーメッセージ対応",
-    ],
-  },
-
-  // ---- PBI-008: リボンアイコン ----
-  {
-    id: "PBI-008",
-    title: "リボンアイコンの追加",
-    userStory: {
-      asA: "視覚的な操作を好むユーザー",
-      iWant: "左サイドバーのアイコンからタスク入力を開始したい",
-      soThat: "ワンクリックでタスク追加を始められる",
-    },
-    acceptanceCriteria: [
-      {
-        given: "プラグインが有効な時",
-        when: "左サイドバーを見る",
-        then: "todonoeaiのアイコンが表示されている",
-      },
-      {
-        given: "アイコンをクリックした時",
-        when: "サイドバーパネルが閉じている",
-        then: "サイドバーパネルが開く",
-      },
-    ],
-    status: "draft",
-    priority: "low",
-    notes: ["addRibbonIcon APIを使用"],
-  },
-];
-
-// ============================================================================
-// SPRINT
-// ============================================================================
-
 type SubtaskStatus = "pending" | "red" | "green" | "refactor" | "done";
 
-interface Subtask {
-  id: string;
-  title: string;
-  status: SubtaskStatus;
-  testFile?: string;
-  implementationFile?: string;
+interface AcceptanceCriterion { given: string; when: string; then: string; }
+interface ProductBacklogItem {
+  id: string; title: string; status: PBIStatus; priority: Priority;
+  userStory: { asA: string; iWant: string; soThat: string };
+  acceptanceCriteria: AcceptanceCriterion[];
+  notes?: string[];
 }
-
+interface Subtask { id: string; title: string; status: SubtaskStatus; }
 interface Sprint {
-  number: number;
-  goal: string;
-  pbiId: string | null;
+  number: number; goal: string; pbiId: string | null;
   status: "planning" | "active" | "review" | "completed";
   subtasks: Subtask[];
 }
+interface Impediment { id: string; description: string; status: "open" | "resolved"; resolution?: string; }
+interface RetrospectiveInsight { sprint: number; insights: string[]; actionItems: string[]; }
 
+// === PRODUCT BACKLOG ===
+const productBacklog: ProductBacklogItem[] = [
+  {
+    id: "PBI-001", title: "型定義・設定基盤の構築", status: "done", priority: "critical",
+    userStory: { asA: "開発者", iWant: "型安全なプラグイン設定と基本型定義を持つ", soThat: "一貫性のある開発を行える" },
+    acceptanceCriteria: [
+      { given: "プラグインロード時", when: "設定読み込み", then: "デフォルト設定が型安全に初期化" },
+      { given: "設定画面で", when: "設定変更", then: "保存され再起動後も維持" },
+      { given: "OpenRouter設定で", when: "APIキー等設定", then: "適切に保存される" },
+    ],
+    notes: ["Sprint 1完了: TDDで実装、22テスト通過"],
+  },
+  {
+    id: "PBI-002", title: "設定画面UIの実装", status: "draft", priority: "critical",
+    userStory: { asA: "ユーザー", iWant: "Obsidian設定画面でAI設定を行いたい", soThat: "APIキーやモデルを簡単に設定できる" },
+    acceptanceCriteria: [
+      { given: "設定画面を開いた時", when: "OpenRouter設定表示", then: "APIキー、モデル選択、Base URL入力欄表示" },
+      { given: "出力設定で", when: "パスと追記位置設定", then: "出力先と追記位置（先頭/末尾）設定可" },
+      { given: "コンテキスト設定で", when: "キーワード追加", then: "日本語→コンテキストマッピング保存" },
+      { given: "設定変更時", when: "画面を閉じる", then: "自動保存される" },
+    ],
+    notes: ["PluginSettingTab API使用", "仕様書3.1.2/3.1.3参照"],
+  },
+  {
+    id: "PBI-003", title: "サイドバーパネルUIの実装", status: "draft", priority: "high",
+    userStory: { asA: "ユーザー", iWant: "サイドバーからタスク入力したい", soThat: "作業中断せずタスク追加できる" },
+    acceptanceCriteria: [
+      { given: "Obsidian起動時", when: "パネルを開く", then: "タスク入力エリア表示" },
+      { given: "自然言語入力時", when: "生成ボタンクリック", then: "AI変換リクエスト送信" },
+      { given: "AI変換完了時", when: "プレビュー表示", then: "todo.txt形式で編集可能表示" },
+      { given: "プレビュー確認時", when: "追加ボタンクリック", then: "ファイルに追記される" },
+    ],
+    notes: ["ItemView API使用"],
+  },
+  {
+    id: "PBI-004", title: "OpenRouter API連携", status: "draft", priority: "high",
+    userStory: { asA: "ユーザー", iWant: "自然言語をtodo.txt形式に変換したい", soThat: "手動フォーマットの手間省ける" },
+    acceptanceCriteria: [
+      { given: "APIキー設定時", when: "テキスト送信", then: "todo.txt形式レスポンス返却" },
+      { given: "APIエラー時", when: "自動リトライ", then: "最大3回リトライ、失敗時エラー表示" },
+      { given: "〇〇の件パターン時", when: "変換実行", then: "+ProjectName形式で付与" },
+      { given: "#keyword入力時", when: "変換実行", then: "@keyword形式で付与" },
+    ],
+    notes: ["仕様書4.3システムプロンプト使用", "Exponential backoff"],
+  },
+  {
+    id: "PBI-005", title: "タスク入力モーダルの実装", status: "draft", priority: "medium",
+    userStory: { asA: "キーボード派ユーザー", iWant: "モーダルでタスク入力したい", soThat: "素早くタスク追加できる" },
+    acceptanceCriteria: [
+      { given: "モーダル表示時", when: "入力エリア表示", then: "テキストエリア表示" },
+      { given: "タスク入力時", when: "生成/Enter", then: "AI変換実行、プレビュー表示" },
+      { given: "プレビュー確認時", when: "追加クリック", then: "ファイル追記、モーダル閉じる" },
+      { given: "キャンセル時", when: "キャンセル/Esc", then: "破棄、モーダル閉じる" },
+    ],
+    notes: ["Modal API使用", "src/ui/TodoModal.ts"],
+  },
+  {
+    id: "PBI-006", title: "コマンドパレット対応", status: "draft", priority: "medium",
+    userStory: { asA: "キーボード派ユーザー", iWant: "コマンドパレットからモーダル開きたい", soThat: "マウス不要で素早く入力開始" },
+    acceptanceCriteria: [
+      { given: "コマンドパレットで", when: "todonoeai: Add Todo選択", then: "モーダルが開く" },
+    ],
+    notes: ["addCommand API使用", "PBI-005のモーダル呼出"],
+  },
+  {
+    id: "PBI-007", title: "todo.txtファイル追記機能", status: "draft", priority: "high",
+    userStory: { asA: "ユーザー", iWant: "生成したtodo.txtを指定ファイルに追記したい", soThat: "タスクが永続保存される" },
+    acceptanceCriteria: [
+      { given: "出力ファイル設定時", when: "追加クリック", then: "ファイルに追記される" },
+      { given: "追記位置=末尾時", when: "タスク追加", then: "末尾に追記" },
+      { given: "追記位置=先頭時", when: "タスク追加", then: "先頭に追記" },
+      { given: "ファイル未存在時", when: "タスク追加", then: "新規作成される" },
+      { given: "ファイル未設定時", when: "タスク追加", then: "エラーメッセージ表示" },
+    ],
+    notes: ["Vault API使用", "仕様書3.1.2/4.4.2参照"],
+  },
+  {
+    id: "PBI-008", title: "リボンアイコンの追加", status: "draft", priority: "low",
+    userStory: { asA: "視覚派ユーザー", iWant: "アイコンからタスク入力開始したい", soThat: "ワンクリックで開始できる" },
+    acceptanceCriteria: [
+      { given: "プラグイン有効時", when: "サイドバー確認", then: "アイコン表示" },
+      { given: "アイコンクリック時", when: "パネル閉じている", then: "パネルが開く" },
+    ],
+    notes: ["addRibbonIcon API使用"],
+  },
+];
+
+// === SPRINT (次Sprint用にリセット) ===
 const sprint: Sprint = {
-  number: 1,
-  goal: "型安全なプラグイン設定基盤を構築する",
-  pbiId: "PBI-001",
-  status: "completed",
-  subtasks: [
-    {
-      id: "ST-001-001",
-      title: "RED: PluginSettings型定義のテストを書く",
-      status: "done",
-      testFile: "src/types/index.test.ts",
-      implementationFile: "src/types/index.ts",
-    },
-    {
-      id: "ST-001-002",
-      title: "GREEN: PluginSettings型定義を実装してテストを通す",
-      status: "done",
-      testFile: "src/types/index.test.ts",
-      implementationFile: "src/types/index.ts",
-    },
-    {
-      id: "ST-001-003",
-      title: "REFACTOR: 型定義のリファクタリング",
-      status: "done",
-      testFile: "src/types/index.test.ts",
-      implementationFile: "src/types/index.ts",
-    },
-    {
-      id: "ST-001-004",
-      title: "RED: DEFAULT_SETTINGSのテストを書く",
-      status: "done",
-      testFile: "src/settings.test.ts",
-      implementationFile: "src/settings.ts",
-    },
-    {
-      id: "ST-001-005",
-      title: "GREEN: DEFAULT_SETTINGSを実装してテストを通す",
-      status: "done",
-      testFile: "src/settings.test.ts",
-      implementationFile: "src/settings.ts",
-    },
-    {
-      id: "ST-001-006",
-      title: "REFACTOR: DEFAULT_SETTINGSのリファクタリング",
-      status: "done",
-      testFile: "src/settings.test.ts",
-      implementationFile: "src/settings.ts",
-    },
-    {
-      id: "ST-001-007",
-      title: "RED: loadSettings/saveSettings関数のテストを書く",
-      status: "done",
-      testFile: "src/settings.test.ts",
-      implementationFile: "src/settings.ts",
-    },
-    {
-      id: "ST-001-008",
-      title: "GREEN: loadSettings/saveSettings関数を実装してテストを通す",
-      status: "done",
-      testFile: "src/settings.test.ts",
-      implementationFile: "src/settings.ts",
-    },
-    {
-      id: "ST-001-009",
-      title: "REFACTOR: loadSettings/saveSettings関数のリファクタリング",
-      status: "done",
-      testFile: "src/settings.test.ts",
-      implementationFile: "src/settings.ts",
-    },
-    {
-      id: "ST-001-010",
-      title: "RED: 設定の永続化テストを書く",
-      status: "done",
-      testFile: "src/settings.test.ts",
-      implementationFile: "src/settings.ts",
-    },
-    {
-      id: "ST-001-011",
-      title: "GREEN: 設定の永続化を実装してテストを通す",
-      status: "done",
-      testFile: "src/settings.test.ts",
-      implementationFile: "src/settings.ts",
-    },
-    {
-      id: "ST-001-012",
-      title: "REFACTOR: 設定の永続化のリファクタリング",
-      status: "done",
-      testFile: "src/settings.test.ts",
-      implementationFile: "src/settings.ts",
-    },
-  ],
+  number: 1, goal: "型安全なプラグイン設定基盤を構築する", pbiId: "PBI-001",
+  status: "completed", subtasks: [],
 };
 
-// ============================================================================
-// IMPEDIMENTS
-// ============================================================================
-
-interface Impediment {
-  id: string;
-  description: string;
-  status: "open" | "resolved";
-  resolution?: string;
-}
-
+// === IMPEDIMENTS ===
 const impediments: Impediment[] = [];
 
-// ============================================================================
-// RETROSPECTIVE INSIGHTS
-// ============================================================================
-
-interface RetrospectiveInsight {
-  sprint: number;
-  insights: string[];
-  actionItems: string[];
-}
-
+// === RETROSPECTIVES ===
 const retrospectives: RetrospectiveInsight[] = [
   {
     sprint: 1,
     insights: [
-      "TDDサイクル（RED-GREEN-REFACTOR）により、型安全な設定基盤を構築できた",
-      "12のサブタスクすべてが計画通りに完了し、Definition of Doneを達成",
-      "テスト22件、型チェック、Lintすべて成功し、ビルドも問題なし",
-      "PBI-001の3つの受け入れ基準（デフォルト設定初期化、設定永続化、OpenRouter設定）をすべて満たした",
+      "Keep: TDD(RED-GREEN-REFACTOR)で型安全な設定基盤構築、12タスク完了、22テスト通過",
+      "Problem: scrum.tsのthenプロパティでLint警告（予約語競合）",
     ],
     actionItems: [
-      "scrum.ts内のAcceptanceCriterionで`then`プロパティ名によるLint警告が発生している（プロダクトコードには影響なし）",
-      "次のSprintでは設定画面UI（PBI-002）に取り組む予定",
+      "PBI-002のRefinement実施", "UI実装でのTDDアプローチ検討",
+      "scrum.tsのLint警告対処検討", "Subtask粒度維持",
     ],
   },
 ];
 
-// ============================================================================
-// DASHBOARD OUTPUT
-// ============================================================================
-
-const dashboard = {
-  productVision,
-  definitionOfDone,
-  productBacklog,
-  sprint,
-  impediments,
-  retrospectives,
-};
-
-console.log(JSON.stringify(dashboard, null, 2));
+// === OUTPUT ===
+console.log(JSON.stringify({
+  productVision, definitionOfDone, productBacklog, sprint, impediments, retrospectives,
+}, null, 2));
