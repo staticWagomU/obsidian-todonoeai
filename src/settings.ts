@@ -1,38 +1,21 @@
-import { App, PluginSettingTab, Setting } from "obsidian";
-import MyPlugin from "./main";
+/**
+ * プラグイン設定管理
+ *
+ * DEFAULT_SETTINGS の定義と設定の読み込み・保存機能を提供します。
+ */
 
-export interface MyPluginSettings {
-	mySetting: string;
-}
+import type { PluginSettings } from "./types/index";
 
-export const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: "default",
+/**
+ * デフォルト設定値
+ *
+ * プラグイン初回起動時または設定が存在しない場合に使用されます。
+ */
+export const DEFAULT_SETTINGS: PluginSettings = {
+	apiKey: "",
+	baseUrl: "https://openrouter.ai/api/v1",
+	model: "anthropic/claude-3.5-sonnet",
+	outputFilePath: "todo.txt",
+	appendPosition: "bottom",
+	contextKeywords: {},
 };
-
-export class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
-
-	constructor(app: App, plugin: MyPlugin) {
-		super(app, plugin);
-		this.plugin = plugin;
-	}
-
-	display(): void {
-		const { containerEl } = this;
-
-		containerEl.empty();
-
-		new Setting(containerEl)
-			.setName("Settings #1")
-			.setDesc("It's a secret")
-			.addText((text) =>
-				text
-					.setPlaceholder("Enter your secret")
-					.setValue(this.plugin.settings.mySetting)
-					.onChange(async (value) => {
-						this.plugin.settings.mySetting = value;
-						await this.plugin.saveSettings();
-					}),
-			);
-	}
-}
