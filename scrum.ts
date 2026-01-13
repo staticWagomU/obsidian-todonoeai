@@ -108,6 +108,7 @@ const productBacklog: ProductBacklogItem[] = [
       "Sprint 1に取り込み: 2026-01-13",
       "Sprint 1完了: 2026-01-13 - TDDで型定義・DEFAULT_SETTINGS・loadSettings/saveSettings実装完了",
       "DoD達成: 全テスト通過(22 tests)、型チェックOK、LintOK、ビルドOK",
+      "Sprint Review完了: 2026-01-13 - 全受け入れ基準達成、Sprint 1をcompletedに移行",
     ],
   },
 
@@ -385,7 +386,7 @@ const sprint: Sprint = {
   number: 1,
   goal: "型安全なプラグイン設定基盤を構築する",
   pbiId: "PBI-001",
-  status: "review",
+  status: "completed",
   subtasks: [
     {
       id: "ST-001-001",
@@ -497,7 +498,21 @@ interface RetrospectiveInsight {
   actionItems: string[];
 }
 
-const retrospectives: RetrospectiveInsight[] = [];
+const retrospectives: RetrospectiveInsight[] = [
+  {
+    sprint: 1,
+    insights: [
+      "TDDサイクル（RED-GREEN-REFACTOR）により、型安全な設定基盤を構築できた",
+      "12のサブタスクすべてが計画通りに完了し、Definition of Doneを達成",
+      "テスト22件、型チェック、Lintすべて成功し、ビルドも問題なし",
+      "PBI-001の3つの受け入れ基準（デフォルト設定初期化、設定永続化、OpenRouter設定）をすべて満たした",
+    ],
+    actionItems: [
+      "scrum.ts内のAcceptanceCriterionで`then`プロパティ名によるLint警告が発生している（プロダクトコードには影響なし）",
+      "次のSprintでは設定画面UI（PBI-002）に取り組む予定",
+    ],
+  },
+];
 
 // ============================================================================
 // DASHBOARD OUTPUT
