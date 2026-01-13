@@ -63,7 +63,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 2完了: 26テスト"],
   },
   {
-    id: "PBI-003", title: "サイドバーパネルUIの実装", status: "ready", priority: "high",
+    id: "PBI-003", title: "サイドバーパネルUIの実装", status: "in_sprint", priority: "high",
     userStory: { asA: "ユーザー", iWant: "サイドバーからタスク入力したい", soThat: "作業中断せずタスク追加できる" },
     acceptanceCriteria: [
       { given: "プラグインロード時", when: "ItemView登録", then: "VIEW_TYPEでregisterView完了" },
@@ -136,10 +136,39 @@ const productBacklog: ProductBacklogItem[] = [
   },
 ];
 
-// === SPRINT (リセット済み) ===
+// === SPRINT 5 (Planning) ===
 const sprint: Sprint = {
-  number: 4, goal: "生成したtodo.txtをObsidian Vaultに追記できるようにする",
-  pbiId: "PBI-007", status: "completed", subtasks: [],
+  number: 5,
+  goal: "サイドバーパネルUIを実装し、自然言語入力からtodo.txt追記までのエンドツーエンド動作を実現する",
+  pbiId: "PBI-003",
+  status: "planning",
+  subtasks: [
+    {
+      id: "S5-T1",
+      title: "ItemView基本構造とViewType登録の実装",
+      status: "pending",
+    },
+    {
+      id: "S5-T2",
+      title: "UI要素構築（textarea、button）の実装",
+      status: "pending",
+    },
+    {
+      id: "S5-T3",
+      title: "OpenRouterClient統合（変換機能）の実装",
+      status: "pending",
+    },
+    {
+      id: "S5-T4",
+      title: "FileService統合（追記機能）の実装",
+      status: "pending",
+    },
+    {
+      id: "S5-T5",
+      title: "エラーハンドリングと通知機能の実装",
+      status: "pending",
+    },
+  ],
 };
 
 // === IMPEDIMENTS ===
