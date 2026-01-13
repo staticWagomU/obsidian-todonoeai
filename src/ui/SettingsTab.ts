@@ -67,5 +67,37 @@ export class TodonoeaiSettingsTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					})
 			);
+
+		// 出力設定セクション
+		containerEl.createEl("h2", { text: "Output Settings" });
+
+		// 出力ファイルパス設定
+		new Setting(containerEl)
+			.setName("Output File Path")
+			.setDesc("todo.txt 出力先ファイルパス")
+			.addText((text) =>
+				text
+					.setPlaceholder("todo.txt")
+					.setValue(this.plugin.settings.outputFilePath)
+					.onChange(async (value) => {
+						this.plugin.settings.outputFilePath = value;
+						await this.plugin.saveSettings();
+					})
+			);
+
+		// 追記位置設定
+		new Setting(containerEl)
+			.setName("Append Position")
+			.setDesc("タスクの追記位置")
+			.addDropdown((dropdown) =>
+				dropdown
+					.addOption("top", "Top (先頭)")
+					.addOption("bottom", "Bottom (末尾)")
+					.setValue(this.plugin.settings.appendPosition)
+					.onChange(async (value) => {
+						this.plugin.settings.appendPosition = value as "top" | "bottom";
+						await this.plugin.saveSettings();
+					})
+			);
 	}
 }

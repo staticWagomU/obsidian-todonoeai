@@ -62,8 +62,25 @@ describe("TodonoeaiSettingsTab", () => {
 
 			settingsTab.display();
 
-			// Setting が 3回呼ばれること（APIキー、BaseURL、Model）
-			expect(SettingSpy).toHaveBeenCalledTimes(3);
+			// Setting が 5回呼ばれること（OpenRouter×3 + 出力×2）
+			expect(SettingSpy).toHaveBeenCalledTimes(5);
+		});
+	});
+
+	describe("出力設定UI", () => {
+		it("display を呼ぶと 出力設定セクションのヘッダーが作成されるべき", () => {
+			const settingsTab = new TodonoeaiSettingsTab(mockApp, mockPlugin);
+			const mockCreateEl = vi.fn();
+			settingsTab.containerEl = {
+				empty: vi.fn(),
+				createEl: mockCreateEl,
+			} as unknown as HTMLElement;
+
+			settingsTab.display();
+
+			expect(mockCreateEl).toHaveBeenCalledWith("h2", {
+				text: "Output Settings",
+			});
 		});
 	});
 });

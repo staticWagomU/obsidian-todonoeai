@@ -35,7 +35,13 @@ export class Setting {
 		}
 		return this;
 	});
-	addDropdown = vi.fn().mockReturnThis();
+	addDropdown = vi.fn((callback?: (dropdown: DropdownComponent) => unknown) => {
+		if (callback) {
+			const dropdownComponent = new DropdownComponent();
+			callback(dropdownComponent);
+		}
+		return this;
+	});
 	addButton = vi.fn().mockReturnThis();
 	constructor(_containerEl: unknown) {}
 }
@@ -45,6 +51,13 @@ export class TextComponent {
 	setValue = vi.fn().mockReturnThis();
 	onChange = vi.fn().mockReturnThis();
 	inputEl: HTMLInputElement = {} as HTMLInputElement;
+}
+
+export class DropdownComponent {
+	addOption = vi.fn().mockReturnThis();
+	setValue = vi.fn().mockReturnThis();
+	onChange = vi.fn().mockReturnThis();
+	selectEl: HTMLSelectElement = {} as HTMLSelectElement;
 }
 
 export class Modal {}
