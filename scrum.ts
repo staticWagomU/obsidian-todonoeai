@@ -63,15 +63,25 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 2完了: 26テスト"],
   },
   {
-    id: "PBI-003", title: "サイドバーパネルUIの実装", status: "draft", priority: "high",
+    id: "PBI-003", title: "サイドバーパネルUIの実装", status: "ready", priority: "high",
     userStory: { asA: "ユーザー", iWant: "サイドバーからタスク入力したい", soThat: "作業中断せずタスク追加できる" },
     acceptanceCriteria: [
-      { given: "Obsidian起動時", when: "パネルを開く", then: "タスク入力エリア表示" },
-      { given: "自然言語入力時", when: "生成ボタンクリック", then: "AI変換リクエスト送信" },
-      { given: "AI変換完了時", when: "プレビュー表示", then: "todo.txt形式で編集可能表示" },
-      { given: "プレビュー確認時", when: "追加ボタンクリック", then: "ファイルに追記される" },
+      { given: "プラグインロード時", when: "ItemView登録", then: "VIEW_TYPEでregisterView完了" },
+      { given: "Obsidian起動時", when: "パネルを開く", then: "タスク入力textareaとボタン表示" },
+      { given: "自然言語入力時", when: "生成ボタンクリック", then: "OpenRouterClient.convert()でAI変換実行" },
+      { given: "AI変換成功時", when: "プレビュー表示", then: "todo.txt形式がtextareaに表示され編集可" },
+      { given: "AI変換失敗時", when: "エラー発生", then: "Notice()でエラーメッセージ表示" },
+      { given: "プレビュー確認時", when: "追加ボタンクリック", then: "FileService.appendToFile()でファイル追記" },
+      { given: "ファイル追記成功時", when: "完了通知", then: "Notice()で成功通知、入力欄クリア" },
+      { given: "ファイル追記失敗時", when: "エラー通知", then: "Notice()でエラー表示" },
     ],
-    notes: ["ItemView API使用", "PBI-004/007統合"],
+    notes: [
+      "技術要件: ItemView継承、getViewType/getDisplayText/onOpen実装必須",
+      "統合点: OpenRouterClient(PBI-004)、FileService(PBI-007)",
+      "UI要素: contentEl.createEl()でDOM構築、textarea×2(入力/プレビュー)、button×2(生成/追加)",
+      "状態管理: settings経由でAPI/ファイル設定取得",
+      "エラー処理: Notice()による通知、ConversionResult/AppendResultで型安全処理",
+    ],
   },
   {
     id: "PBI-004", title: "OpenRouter API連携", status: "done", priority: "high",
@@ -140,7 +150,7 @@ const retrospectives: RetrospectiveInsight[] = [
   { sprint: 1, insights: ["Keep: TDD、22テスト", "Problem: Lint警告"], actionItems: ["PBI-002 Refinement"] },
   { sprint: 2, insights: ["Keep: UI TDD、26テスト", "Problem: Lint未対処"], actionItems: ["PBI-004/007 Refinement"] },
   { sprint: 3, insights: ["Keep: API TDD、33テスト", "Problem: Lint警告継続"], actionItems: ["PBI-007/003 Refinement"] },
-  { sprint: 4, insights: ["Keep: FileService TDD、42テスト、Subtask最適化", "Problem: Lint警告4Sprint継続"], actionItems: ["PBI-003 Refinement", "UI層実装へ"] },
+  { sprint: 4, insights: ["Keep: FileService TDD、42テスト、Subtask最適化", "Problem: Lint警告4Sprint継続"], actionItems: ["PBI-003 Refinement完了→ready", "Sprint 5開始可能"] },
 ];
 
 // === OUTPUT ===
