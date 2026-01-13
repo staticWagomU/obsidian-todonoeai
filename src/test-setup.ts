@@ -65,3 +65,12 @@ export class Modal {}
 export class Notice {}
 export class MarkdownView {}
 export class Editor {}
+
+// Vault Mock for testing
+export interface Vault {
+	adapter: {
+		read: (path: string) => Promise<string>;
+		write: (path: string, data: string) => Promise<void>;
+		exists: (path: string) => Promise<boolean>;
+	};
+}
