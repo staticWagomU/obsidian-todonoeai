@@ -90,4 +90,54 @@ describe("FileService", () => {
 			expect(mockAdapter.write).toHaveBeenCalledWith("todo.txt", "new content");
 		});
 	});
+
+	describe("appendToFile - 先頭追記", () => {
+		it("ファイルが存在する場合、先頭に追記できる", async () => {
+			const config: FileServiceConfig = {
+				vault: { adapter: mockAdapter } as any,
+				settings: {
+					apiKey: "",
+					baseUrl: "",
+					model: "",
+					outputFilePath: "todo.txt",
+					appendPosition: "top",
+					contextKeywords: {},
+				},
+			};
+
+			mockAdapter.exists.mockResolvedValue(true);
+			mockAdapter.read.mockResolvedValue("existing content");
+
+			const service = new FileService(config);
+			const result = await service.appendToFile("new content");
+
+			expect(result.success).toBe(true);
+			expect(mockAdapter.exists).toHaveBeenCalledWith("todo.txt");
+			expect(mockAdapter.read).toHaveBeenCalledWith("todo.txt");
+			expect(mockAdapter.write).toHaveBeenCalledWith("todo.txt", "new content\nexisting content");
+		});
+
+		it("空ファイルの場合、改行なしで追記できる", async () => {
+			const config: FileServiceConfig = {
+				vault: { adapter: mockAdapter } as any,
+				settings: {
+					apiKey: "",
+					baseUrl: "",
+					model: "",
+					outputFilePath: "todo.txt",
+					appendPosition: "top",
+					contextKeywords: {},
+				},
+			};
+
+			mockAdapter.exists.mockResolvedValue(true);
+			mockAdapter.read.mockResolvedValue("");
+
+			const service = new FileService(config);
+			const result = await service.appendToFile("new content");
+
+			expect(result.success).toBe(true);
+			expect(mockAdapter.write).toHaveBeenCalledWith("todo.txt", "new content");
+		});
+	});
 });

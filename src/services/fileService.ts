@@ -47,16 +47,7 @@ export class FileService {
 
 			if (fileExists) {
 				const existingContent = await this.vault.adapter.read(filePath);
-				let newContent: string;
-
-				if (this.settings.appendPosition === "bottom") {
-					// 末尾追記
-					newContent = existingContent ? `${existingContent}\n${content}` : content;
-				} else {
-					// 先頭追記（後で実装）
-					newContent = content;
-				}
-
+				const newContent = this.mergeContent(existingContent, content);
 				await this.vault.adapter.write(filePath, newContent);
 			}
 
@@ -66,6 +57,25 @@ export class FileService {
 				success: false,
 				error: error instanceof Error ? error.message : "Unknown error",
 			};
+		}
+	}
+
+	/**
+	 * 既存内容と新規内容をマージする
+	 *
+	 * @param existingContent - 既存内容
+	 * @param newContent - 新規内容
+	 * @returns マージされた内容
+	 */
+	private mergeContent(existingContent: string, newContent: string): string {
+		if (!existingContent) {
+			return newContent;
+		}
+
+		if (this.settings.appendPosition === "bottom") {
+			return `${existingContent}\n${newContent}`;
+		} else {
+			return `${newContent}\n${existingContent}`;
 		}
 	}
 }
