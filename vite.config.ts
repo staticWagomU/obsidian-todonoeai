@@ -58,20 +58,5 @@ export default defineConfig(({ mode }) => {
 				},
 			},
 		},
-		test: {
-			globals: true,
-			environment: "node",
-			include: ["src/**/*.test.ts"],
-			coverage: {
-				provider: "v8",
-				reporter: ["text", "json", "html"],
-				exclude: ["node_modules/", "src/**/*.test.ts"],
-			},
-			server: {
-				deps: {
-					external: ["obsidian"],
-				},
-			},
-		},
 	};
 });
