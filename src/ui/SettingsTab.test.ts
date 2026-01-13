@@ -83,4 +83,21 @@ describe("TodonoeaiSettingsTab", () => {
 			});
 		});
 	});
+
+	describe("コンテキストキーワード設定UI", () => {
+		it("display を呼ぶと コンテキスト設定セクションのヘッダーが作成されるべき", () => {
+			const settingsTab = new TodonoeaiSettingsTab(mockApp, mockPlugin);
+			const mockCreateEl = vi.fn();
+			settingsTab.containerEl = {
+				empty: vi.fn(),
+				createEl: mockCreateEl,
+			} as unknown as HTMLElement;
+
+			settingsTab.display();
+
+			expect(mockCreateEl).toHaveBeenCalledWith("h2", {
+				text: "Context Keywords",
+			});
+		});
+	});
 });

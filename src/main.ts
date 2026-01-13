@@ -1,6 +1,7 @@
 import { App, Editor, MarkdownView, Modal, Notice, Plugin } from "obsidian";
 import { loadSettings, saveSettings } from "./settings";
 import type { PluginSettings } from "./types/index";
+import { TodonoeaiSettingsTab } from "./ui/SettingsTab";
 
 export default class TodonoeaiPlugin extends Plugin {
 	settings: PluginSettings;
@@ -56,8 +57,7 @@ export default class TodonoeaiPlugin extends Plugin {
 		});
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
-		// TODO: 設定タブの実装は PBI-002 で行う
-		// this.addSettingTab(new SampleSettingTab(this.app, this));
+		this.addSettingTab(new TodonoeaiSettingsTab(this.app, this));
 
 		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
 		// Using this function will automatically remove the event listener when this plugin is disabled.

@@ -99,5 +99,13 @@ export class TodonoeaiSettingsTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					})
 			);
+
+		// コンテキストキーワード設定セクション
+		containerEl.createEl("h2", { text: "Context Keywords" });
+
+		// 説明文
+		containerEl.createEl("p", {
+			text: "カスタムコンテキストキーワードのマッピングを設定します。（キーワード追加/削除機能は今後実装予定）",
+		});
 	}
 }
