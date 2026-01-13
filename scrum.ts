@@ -133,7 +133,7 @@ const sprint: Sprint = {
   pbiId: "PBI-007",
   status: "active",
   subtasks: [
-    { id: "ST-007-1", title: "フェーズ1: FileService基本構造（型定義、Vault APIラッパー）", status: "pending" },
+    { id: "ST-007-1", title: "フェーズ1: FileService基本構造（型定義、Vault APIラッパー）", status: "done" },
     { id: "ST-007-2", title: "フェーズ2: 末尾追記機能（RED → GREEN → REFACTOR）", status: "pending" },
     { id: "ST-007-3", title: "フェーズ3: 先頭追記機能（RED → GREEN → REFACTOR）", status: "pending" },
     { id: "ST-007-4", title: "フェーズ4: ファイル新規作成・エラーハンドリング（RED → GREEN → REFACTOR）", status: "pending" },
