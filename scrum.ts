@@ -98,13 +98,14 @@ const productBacklog: ProductBacklogItem[] = [
         then: "それぞれが適切に保存される",
       },
     ],
-    status: "ready",
+    status: "in_sprint",
     priority: "critical",
     notes: [
       "OpenRouterのみ対応（初期スコープ）",
       "src/types/index.ts に型定義を集約",
       "src/settings.ts に設定管理を実装",
       "Refinement完了: 2026-01-13 - 受け入れ基準明確、依存関係なし、実装スコープ確定",
+      "Sprint 1に取り込み: 2026-01-13",
     ],
   },
 
@@ -379,11 +380,96 @@ interface Sprint {
 }
 
 const sprint: Sprint = {
-  number: 0,
-  goal: "スプリント未開始",
-  pbiId: null,
-  status: "planning",
-  subtasks: [],
+  number: 1,
+  goal: "型安全なプラグイン設定基盤を構築する",
+  pbiId: "PBI-001",
+  status: "active",
+  subtasks: [
+    {
+      id: "ST-001-001",
+      title: "RED: PluginSettings型定義のテストを書く",
+      status: "pending",
+      testFile: "tests/types/index.test.ts",
+      implementationFile: "src/types/index.ts",
+    },
+    {
+      id: "ST-001-002",
+      title: "GREEN: PluginSettings型定義を実装してテストを通す",
+      status: "pending",
+      testFile: "tests/types/index.test.ts",
+      implementationFile: "src/types/index.ts",
+    },
+    {
+      id: "ST-001-003",
+      title: "REFACTOR: 型定義のリファクタリング",
+      status: "pending",
+      testFile: "tests/types/index.test.ts",
+      implementationFile: "src/types/index.ts",
+    },
+    {
+      id: "ST-001-004",
+      title: "RED: DEFAULT_SETTINGSのテストを書く",
+      status: "pending",
+      testFile: "tests/settings.test.ts",
+      implementationFile: "src/settings.ts",
+    },
+    {
+      id: "ST-001-005",
+      title: "GREEN: DEFAULT_SETTINGSを実装してテストを通す",
+      status: "pending",
+      testFile: "tests/settings.test.ts",
+      implementationFile: "src/settings.ts",
+    },
+    {
+      id: "ST-001-006",
+      title: "REFACTOR: DEFAULT_SETTINGSのリファクタリング",
+      status: "pending",
+      testFile: "tests/settings.test.ts",
+      implementationFile: "src/settings.ts",
+    },
+    {
+      id: "ST-001-007",
+      title: "RED: loadSettings/saveSettings関数のテストを書く",
+      status: "pending",
+      testFile: "tests/settings.test.ts",
+      implementationFile: "src/settings.ts",
+    },
+    {
+      id: "ST-001-008",
+      title: "GREEN: loadSettings/saveSettings関数を実装してテストを通す",
+      status: "pending",
+      testFile: "tests/settings.test.ts",
+      implementationFile: "src/settings.ts",
+    },
+    {
+      id: "ST-001-009",
+      title: "REFACTOR: loadSettings/saveSettings関数のリファクタリング",
+      status: "pending",
+      testFile: "tests/settings.test.ts",
+      implementationFile: "src/settings.ts",
+    },
+    {
+      id: "ST-001-010",
+      title: "RED: 設定の永続化テストを書く",
+      status: "pending",
+      testFile: "tests/settings.test.ts",
+      implementationFile: "src/settings.ts",
+    },
+    {
+      id: "ST-001-011",
+      title: "GREEN: 設定の永続化を実装してテストを通す",
+      status: "pending",
+      testFile: "tests/settings.test.ts",
+      implementationFile: "src/settings.ts",
+    },
+    {
+      id: "ST-001-012",
+      title: "REFACTOR: 設定の永続化のリファクタリング",
+      status: "pending",
+      testFile: "tests/settings.test.ts",
+      implementationFile: "src/settings.ts",
+    },
+  ],
 };
 
 // ============================================================================
