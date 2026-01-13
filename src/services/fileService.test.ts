@@ -140,4 +140,98 @@ describe("FileService", () => {
 			expect(mockAdapter.write).toHaveBeenCalledWith("todo.txt", "new content");
 		});
 	});
+
+	describe("appendToFile - ファイル新規作成", () => {
+		it("ファイルが存在しない場合、新規作成される", async () => {
+			const config: FileServiceConfig = {
+				vault: { adapter: mockAdapter } as any,
+				settings: {
+					apiKey: "",
+					baseUrl: "",
+					model: "",
+					outputFilePath: "todo.txt",
+					appendPosition: "bottom",
+					contextKeywords: {},
+				},
+			};
+
+			mockAdapter.exists.mockResolvedValue(false);
+
+			const service = new FileService(config);
+			const result = await service.appendToFile("new content");
+
+			expect(result.success).toBe(true);
+			expect(mockAdapter.exists).toHaveBeenCalledWith("todo.txt");
+			expect(mockAdapter.write).toHaveBeenCalledWith("todo.txt", "new content");
+		});
+	});
+
+	describe("appendToFile - エラーハンドリング", () => {
+		it("ファイル未設定の場合、エラーが返される", async () => {
+			const config: FileServiceConfig = {
+				vault: { adapter: mockAdapter } as any,
+				settings: {
+					apiKey: "",
+					baseUrl: "",
+					model: "",
+					outputFilePath: "",
+					appendPosition: "bottom",
+					contextKeywords: {},
+				},
+			};
+
+			const service = new FileService(config);
+			const result = await service.appendToFile("new content");
+
+			expect(result.success).toBe(false);
+			expect(result.error).toBe("Output file path is not set");
+		});
+
+		it("読み込みエラーの場合、エラーが返される", async () => {
+			const config: FileServiceConfig = {
+				vault: { adapter: mockAdapter } as any,
+				settings: {
+					apiKey: "",
+					baseUrl: "",
+					model: "",
+					outputFilePath: "todo.txt",
+					appendPosition: "bottom",
+					contextKeywords: {},
+				},
+			};
+
+			mockAdapter.exists.mockResolvedValue(true);
+			mockAdapter.read.mockRejectedValue(new Error("Read error"));
+
+			const service = new FileService(config);
+			const result = await service.appendToFile("new content");
+
+			expect(result.success).toBe(false);
+			expect(result.error).toBe("Read error");
+		});
+
+		it("書き込みエラーの場合、エラーが返される", async () => {
+			const config: FileServiceConfig = {
+				vault: { adapter: mockAdapter } as any,
+				settings: {
+					apiKey: "",
+					baseUrl: "",
+					model: "",
+					outputFilePath: "todo.txt",
+					appendPosition: "bottom",
+					contextKeywords: {},
+				},
+			};
+
+			mockAdapter.exists.mockResolvedValue(true);
+			mockAdapter.read.mockResolvedValue("existing content");
+			mockAdapter.write.mockRejectedValue(new Error("Write error"));
+
+			const service = new FileService(config);
+			const result = await service.appendToFile("new content");
+
+			expect(result.success).toBe(false);
+			expect(result.error).toBe("Write error");
+		});
+	});
 });

@@ -43,12 +43,25 @@ export class FileService {
 	async appendToFile(content: string): Promise<AppendResult> {
 		try {
 			const filePath = this.settings.outputFilePath;
+
+			// ファイルパス未設定チェック
+			if (!filePath) {
+				return {
+					success: false,
+					error: "Output file path is not set",
+				};
+			}
+
 			const fileExists = await this.vault.adapter.exists(filePath);
 
 			if (fileExists) {
+				// 既存ファイルに追記
 				const existingContent = await this.vault.adapter.read(filePath);
 				const newContent = this.mergeContent(existingContent, content);
 				await this.vault.adapter.write(filePath, newContent);
+			} else {
+				// 新規ファイル作成
+				await this.vault.adapter.write(filePath, content);
 			}
 
 			return { success: true };
