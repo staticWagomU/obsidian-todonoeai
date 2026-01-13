@@ -19,3 +19,41 @@ export const DEFAULT_SETTINGS: PluginSettings = {
 	appendPosition: "bottom",
 	contextKeywords: {},
 };
+
+/**
+ * データ読み込み関数の型定義
+ */
+export type LoadDataFn = () => Promise<unknown>;
+
+/**
+ * データ保存関数の型定義
+ */
+export type SaveDataFn = (data: PluginSettings) => Promise<void>;
+
+/**
+ * 設定を読み込む
+ *
+ * @param loadDataFn - Obsidian Plugin の loadData 関数
+ * @returns 読み込まれた設定（デフォルト設定とマージ済み）
+ */
+export async function loadSettings(loadDataFn: LoadDataFn): Promise<PluginSettings> {
+	const savedData = (await loadDataFn()) as Partial<PluginSettings> | null;
+
+	return {
+		...DEFAULT_SETTINGS,
+		...(savedData || {}),
+	};
+}
+
+/**
+ * 設定を保存する
+ *
+ * @param saveDataFn - Obsidian Plugin の saveData 関数
+ * @param settings - 保存する設定
+ */
+export async function saveSettings(
+	saveDataFn: SaveDataFn,
+	settings: PluginSettings,
+): Promise<void> {
+	await saveDataFn(settings);
+}

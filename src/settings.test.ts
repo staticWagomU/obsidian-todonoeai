@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
-import { DEFAULT_SETTINGS } from "./settings";
+import { describe, expect, it, vi } from "vitest";
+import { DEFAULT_SETTINGS, loadSettings, saveSettings } from "./settings";
+import type { PluginSettings } from "./types/index";
 
 describe("DEFAULT_SETTINGS", () => {
 	it("DEFAULT_SETTINGS が正しくエクスポートされているべき", () => {
@@ -40,5 +41,75 @@ describe("DEFAULT_SETTINGS", () => {
 		expect(keys).toContain("outputFilePath");
 		expect(keys).toContain("appendPosition");
 		expect(keys).toContain("contextKeywords");
+	});
+});
+
+describe("loadSettings", () => {
+	it("loadSettings が正しくエクスポートされているべき", () => {
+		expect(loadSettings).toBeDefined();
+		expect(typeof loadSettings).toBe("function");
+	});
+
+	it("保存されたデータがない場合、デフォルト設定を返すべき", async () => {
+		const mockLoadData = vi.fn().mockResolvedValue(null);
+		const settings = await loadSettings(mockLoadData);
+
+		expect(settings).toEqual(DEFAULT_SETTINGS);
+		expect(mockLoadData).toHaveBeenCalledTimes(1);
+	});
+
+	it("保存されたデータがある場合、デフォルト設定とマージして返すべき", async () => {
+		const savedData: Partial<PluginSettings> = {
+			apiKey: "test-key",
+			model: "gpt-4",
+		};
+		const mockLoadData = vi.fn().mockResolvedValue(savedData);
+		const settings = await loadSettings(mockLoadData);
+
+		expect(settings).toEqual({
+			...DEFAULT_SETTINGS,
+			apiKey: "test-key",
+			model: "gpt-4",
+		});
+		expect(mockLoadData).toHaveBeenCalledTimes(1);
+	});
+
+	it("部分的な設定でも正しくマージされるべき", async () => {
+		const savedData: Partial<PluginSettings> = {
+			appendPosition: "top",
+		};
+		const mockLoadData = vi.fn().mockResolvedValue(savedData);
+		const settings = await loadSettings(mockLoadData);
+
+		expect(settings.appendPosition).toBe("top");
+		expect(settings.apiKey).toBe(DEFAULT_SETTINGS.apiKey);
+		expect(settings.baseUrl).toBe(DEFAULT_SETTINGS.baseUrl);
+	});
+});
+
+describe("saveSettings", () => {
+	it("saveSettings が正しくエクスポートされているべき", () => {
+		expect(saveSettings).toBeDefined();
+		expect(typeof saveSettings).toBe("function");
+	});
+
+	it("設定を保存できるべき", async () => {
+		const mockSaveData = vi.fn().mockResolvedValue(undefined);
+		const settings: PluginSettings = {
+			...DEFAULT_SETTINGS,
+			apiKey: "new-key",
+		};
+
+		await saveSettings(mockSaveData, settings);
+
+		expect(mockSaveData).toHaveBeenCalledTimes(1);
+		expect(mockSaveData).toHaveBeenCalledWith(settings);
+	});
+
+	it("設定の保存に失敗した場合、エラーをスローすべき", async () => {
+		const mockSaveData = vi.fn().mockRejectedValue(new Error("Save failed"));
+		const settings: PluginSettings = DEFAULT_SETTINGS;
+
+		await expect(saveSettings(mockSaveData, settings)).rejects.toThrow("Save failed");
 	});
 });
