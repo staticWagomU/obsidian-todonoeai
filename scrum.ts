@@ -52,7 +52,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 1完了: TDDで実装、22テスト通過"],
   },
   {
-    id: "PBI-002", title: "設定画面UIの実装", status: "draft", priority: "critical",
+    id: "PBI-002", title: "設定画面UIの実装", status: "ready", priority: "critical",
     userStory: { asA: "ユーザー", iWant: "Obsidian設定画面でAI設定を行いたい", soThat: "APIキーやモデルを簡単に設定できる" },
     acceptanceCriteria: [
       { given: "設定画面を開いた時", when: "OpenRouter設定表示", then: "APIキー、モデル選択、Base URL入力欄表示" },
@@ -60,7 +60,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "コンテキスト設定で", when: "キーワード追加", then: "日本語→コンテキストマッピング保存" },
       { given: "設定変更時", when: "画面を閉じる", then: "自動保存される" },
     ],
-    notes: ["PluginSettingTab API使用", "仕様書3.1.2/3.1.3参照"],
+    notes: ["PluginSettingTab API使用", "仕様書3.1.2/3.1.3参照", "Refined: 2026-01-13 - 依存PBI-001完了確認、AC明確性確認完了"],
   },
   {
     id: "PBI-003", title: "サイドバーパネルUIの実装", status: "draft", priority: "high",
