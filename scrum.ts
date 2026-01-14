@@ -75,15 +75,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "ファイル追記成功時", when: "完了通知", then: "Notice()で成功通知、入力欄クリア" },
       { given: "ファイル追記失敗時", when: "エラー通知", then: "Notice()でエラー表示" },
     ],
-    notes: [
-      "技術要件: ItemView継承、getViewType/getDisplayText/onOpen実装必須",
-      "統合点: OpenRouterClient(PBI-004)、FileService(PBI-007)",
-      "UI要素: contentEl.createEl()でDOM構築、textarea×2(入力/プレビュー)、button×2(生成/追加)",
-      "状態管理: settings経由でAPI/ファイル設定取得",
-      "エラー処理: Notice()による通知、ConversionResult/AppendResultで型安全処理",
-      "Sprint 5完了: 61テスト、TDDサイクル完遂、受け入れ基準8項目全達成",
-      "Sprint Review完了: DoD検証済(test/typecheck/build成功、lint警告はscrum.ts由来のみ)",
-    ],
+    notes: ["Sprint 5完了: 61テスト、ItemView+OpenRouterClient+FileService統合"],
   },
   {
     id: "PBI-004", title: "OpenRouter API連携", status: "done", priority: "high",
@@ -138,39 +130,10 @@ const productBacklog: ProductBacklogItem[] = [
   },
 ];
 
-// === SPRINT 5 (Completed) ===
+// === SPRINT (リセット済み) ===
 const sprint: Sprint = {
-  number: 5,
-  goal: "サイドバーパネルUIを実装し、自然言語入力からtodo.txt追記までのエンドツーエンド動作を実現する",
-  pbiId: "PBI-003",
-  status: "completed",
-  subtasks: [
-    {
-      id: "S5-T1",
-      title: "ItemView基本構造とViewType登録の実装",
-      status: "done",
-    },
-    {
-      id: "S5-T2",
-      title: "UI要素構築（textarea、button）の実装",
-      status: "done",
-    },
-    {
-      id: "S5-T3",
-      title: "OpenRouterClient統合（変換機能）の実装",
-      status: "done",
-    },
-    {
-      id: "S5-T4",
-      title: "FileService統合（追記機能）の実装",
-      status: "done",
-    },
-    {
-      id: "S5-T5",
-      title: "エラーハンドリングと通知機能の実装",
-      status: "done",
-    },
-  ],
+  number: 5, goal: "サイドバーパネルUIを実装し、自然言語入力からtodo.txt追記までのエンドツーエンド動作を実現する",
+  pbiId: "PBI-003", status: "completed", subtasks: [],
 };
 
 // === IMPEDIMENTS ===
@@ -182,7 +145,7 @@ const retrospectives: RetrospectiveInsight[] = [
   { sprint: 2, insights: ["Keep: UI TDD、26テスト", "Problem: Lint未対処"], actionItems: ["PBI-004/007 Refinement"] },
   { sprint: 3, insights: ["Keep: API TDD、33テスト", "Problem: Lint警告継続"], actionItems: ["PBI-007/003 Refinement"] },
   { sprint: 4, insights: ["Keep: FileService TDD、42テスト、Subtask最適化", "Problem: Lint警告4Sprint継続"], actionItems: ["PBI-003 Refinement完了→ready", "Sprint 5開始可能"] },
-  { sprint: 5, insights: ["Keep: SidebarView TDD、61テスト、エンドツーエンド統合成功", "Problem: scrum.ts lint警告継続"], actionItems: ["PBI-003完了、次PBI選定"] },
+  { sprint: 5, insights: ["Keep: SidebarView TDD、61テスト、E2E統合成功", "Problem: Lint警告5Sprint継続"], actionItems: ["次PBI選定", "Lint対応検討"] },
 ];
 
 // === OUTPUT ===
