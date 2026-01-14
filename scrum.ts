@@ -103,7 +103,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 6完了: 83テスト、Modal+OpenRouterClient+FileService統合"],
   },
   {
-    id: "PBI-006", title: "コマンドパレット対応", status: "ready", priority: "medium",
+    id: "PBI-006", title: "コマンドパレット対応", status: "in_sprint", priority: "medium",
     userStory: { asA: "キーボード派ユーザー", iWant: "コマンドパレットからモーダル開きたい", soThat: "マウス不要で素早く入力開始" },
     acceptanceCriteria: [
       { given: "プラグインロード時", when: "addCommand実行", then: "id='add-todo', name='Add Todo'でコマンド登録完了" },
@@ -140,10 +140,16 @@ const productBacklog: ProductBacklogItem[] = [
   },
 ];
 
-// === SPRINT (リセット済み) ===
+// === SPRINT 7 ===
 const sprint: Sprint = {
-  number: 6, goal: "タスク入力モーダルを実装し、キーボード操作に最適化されたタスク追加UIを提供する",
-  pbiId: "PBI-005", status: "completed", subtasks: [],
+  number: 7,
+  goal: "コマンドパレット経由でTodoModal起動を可能にし、キーボード派ユーザーの操作性を向上させる",
+  pbiId: "PBI-006",
+  status: "active",
+  subtasks: [
+    { id: "S7-T1", title: "main.tsにaddCommandを追加してTodoModal起動を実装", status: "done" },
+    { id: "S7-T2", title: "TodoModal統合の検証（コマンド→モーダル→AI変換→ファイル追加）", status: "pending" },
+  ],
 };
 
 // === IMPEDIMENTS ===
