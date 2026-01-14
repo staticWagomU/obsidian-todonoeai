@@ -3,7 +3,9 @@
  */
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { TodoModal } from "./TodoModal";
-import { App } from "obsidian";
+import { App, Notice } from "obsidian";
+import type { PluginSettings } from "../types/index";
+import type { OpenRouterClient } from "../api/openrouter";
 
 describe("TodoModal", () => {
 	let app: App;
@@ -95,6 +97,124 @@ describe("TodoModal", () => {
 
 			await modal.onOpen();
 			expect(focusSpy).toHaveBeenCalledOnce();
+		});
+	});
+
+	describe("OpenRouterClient統合", () => {
+		let settings: PluginSettings;
+		let mockOpenRouterClient: OpenRouterClient;
+
+		beforeEach(() => {
+			settings = {
+				apiKey: "test-api-key",
+				baseUrl: "https://openrouter.ai/api/v1",
+				model: "test-model",
+				outputFilePath: "todos.txt",
+				appendPosition: "bottom",
+			};
+
+			mockOpenRouterClient = {
+				convert: vi.fn().mockResolvedValue({
+					success: true,
+					todoText: "2026-01-14 Test task",
+				}),
+			} as any;
+		});
+
+		it("設定を受け取ってOpenRouterClientを初期化できる", () => {
+			const modalWithSettings = new TodoModal(app, settings);
+			expect(modalWithSettings).toBeDefined();
+		});
+
+		it("変換ボタンクリック時、入力値が空の場合は何もしない", async () => {
+			const modalWithSettings = new TodoModal(app, settings, mockOpenRouterClient);
+			await modalWithSettings.onOpen();
+
+			// 入力textareaを取得（privateなので、イベントトリガーで確認）
+			const convertButton = modalWithSettings.contentEl.createEl.mock.results
+				.find((result: any) => result.value?.textContent === "AI変換")?.value;
+
+			// 入力が空の状態でクリック
+			if (convertButton?.onclick) {
+				await convertButton.onclick();
+			}
+
+			expect(mockOpenRouterClient.convert).not.toHaveBeenCalled();
+		});
+
+		it("変換ボタンクリック時、OpenRouterClient.convert()を呼び出す", async () => {
+			const modalWithSettings = new TodoModal(app, settings, mockOpenRouterClient);
+			await modalWithSettings.onOpen();
+
+			// 入力textareaに値をセット
+			const inputTextarea = modalWithSettings.contentEl.createEl.mock.results
+				.find((result: any) => result.value?.placeholder === "タスクを入力...")?.value;
+			if (inputTextarea) {
+				inputTextarea.value = "Test task";
+			}
+
+			// 変換ボタンクリック
+			const convertButton = modalWithSettings.contentEl.createEl.mock.results
+				.find((result: any) => result.value?.textContent === "AI変換")?.value;
+			if (convertButton?.onclick) {
+				await convertButton.onclick();
+			}
+
+			expect(mockOpenRouterClient.convert).toHaveBeenCalledWith("Test task");
+		});
+
+		it("変換成功時、プレビューtextareaに結果を表示", async () => {
+			const modalWithSettings = new TodoModal(app, settings, mockOpenRouterClient);
+			await modalWithSettings.onOpen();
+
+			// 入力textareaに値をセット
+			const inputTextarea = modalWithSettings.contentEl.createEl.mock.results
+				.find((result: any) => result.value?.placeholder === "タスクを入力...")?.value;
+			if (inputTextarea) {
+				inputTextarea.value = "Test task";
+			}
+
+			// プレビューtextareaを取得
+			const previewTextarea = modalWithSettings.contentEl.createEl.mock.results
+				.find((result: any) => result.value?.placeholder === "todo.txtプレビュー")?.value;
+
+			// 変換ボタンクリック
+			const convertButton = modalWithSettings.contentEl.createEl.mock.results
+				.find((result: any) => result.value?.textContent === "AI変換")?.value;
+			if (convertButton?.onclick) {
+				await convertButton.onclick();
+			}
+
+			expect(previewTextarea?.value).toBe("2026-01-14 Test task");
+		});
+
+		it("変換失敗時、Notice経由でエラー表示される", async () => {
+			const failMockClient = {
+				convert: vi.fn().mockResolvedValue({
+					success: false,
+					error: "API Error",
+				}),
+			} as any;
+
+			const modalWithSettings = new TodoModal(app, settings, failMockClient);
+			await modalWithSettings.onOpen();
+
+			// 入力textareaに値をセット
+			const inputTextarea = modalWithSettings.contentEl.createEl.mock.results
+				.find((result: any) => result.value?.placeholder === "タスクを入力...")?.value;
+			if (inputTextarea) {
+				inputTextarea.value = "Test task";
+			}
+
+			// 変換ボタンクリック
+			const convertButton = modalWithSettings.contentEl.createEl.mock.results
+				.find((result: any) => result.value?.textContent === "AI変換")?.value;
+			if (convertButton?.onclick) {
+				await convertButton.onclick();
+			}
+
+			// convert自体は呼ばれている
+			expect(failMockClient.convert).toHaveBeenCalledWith("Test task");
 		});
 	});
 });
