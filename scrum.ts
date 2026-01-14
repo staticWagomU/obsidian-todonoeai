@@ -133,19 +133,10 @@ const productBacklog: ProductBacklogItem[] = [
   },
 ];
 
-// === SPRINT ===
+// === SPRINT (リセット済み) ===
 const sprint: Sprint = {
-  number: 6,
-  goal: "タスク入力モーダルを実装し、キーボード操作に最適化されたタスク追加UIを提供する",
-  pbiId: "PBI-005",
-  status: "completed",
-  subtasks: [
-    { id: "S6-T1", title: "Modal基本構造の実装（constructor, onOpen, onClose）", status: "done" },
-    { id: "S6-T2", title: "UI要素の構築（タイトル、textarea、button、イベントハンドラ）", status: "done" },
-    { id: "S6-T3", title: "OpenRouterClient統合（変換機能の実装）", status: "done" },
-    { id: "S6-T4", title: "FileService統合（追記機能 + モーダルclose）", status: "done" },
-    { id: "S6-T5", title: "エラーハンドリングと通知（Notice統合）", status: "done" },
-  ],
+  number: 6, goal: "タスク入力モーダルを実装し、キーボード操作に最適化されたタスク追加UIを提供する",
+  pbiId: "PBI-005", status: "completed", subtasks: [],
 };
 
 // === IMPEDIMENTS ===
@@ -158,7 +149,7 @@ const retrospectives: RetrospectiveInsight[] = [
   { sprint: 3, insights: ["Keep: API TDD、33テスト", "Problem: Lint警告継続"], actionItems: ["PBI-007/003 Refinement"] },
   { sprint: 4, insights: ["Keep: FileService TDD、42テスト、Subtask最適化", "Problem: Lint警告4Sprint継続"], actionItems: ["PBI-003 Refinement完了→ready", "Sprint 5開始可能"] },
   { sprint: 5, insights: ["Keep: SidebarView TDD、61テスト、E2E統合成功", "Problem: Lint警告5Sprint継続"], actionItems: ["次PBI選定", "Lint対応検討"] },
-  { sprint: 6, insights: ["Keep: Modal TDD、22テスト、合計83テスト達成", "Problem: Lint警告6Sprint継続"], actionItems: ["PBI-006 Refinement", "Lint対応検討"] },
+  { sprint: 6, insights: ["Keep: Modal TDD、83テスト、パターン再利用成功", "Problem: Lint警告6Sprint継続"], actionItems: ["PBI-006実装可能（依存解決）", "Lint対応検討"] },
 ];
 
 // === OUTPUT ===
