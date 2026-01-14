@@ -30,7 +30,7 @@ describe("TodonoeaiPlugin - 統合テスト", () => {
 		plugin.saveData = vi.fn().mockResolvedValue(undefined);
 		plugin.addRibbonIcon = vi.fn().mockReturnValue({} as any);
 		plugin.addStatusBarItem = vi.fn().mockReturnValue({ setText: vi.fn() } as any);
-		
+
 		// addCommandをモックしてコマンドをキャプチャ
 		plugin.addCommand = vi.fn().mockImplementation((command: Command) => {
 			if (command.id === "add-todo") {
@@ -38,9 +38,10 @@ describe("TodonoeaiPlugin - 統合テスト", () => {
 			}
 			return {} as any;
 		});
-		
+
 		plugin.addSettingTab = vi.fn();
 		plugin.registerDomEvent = vi.fn();
+		plugin.registerView = vi.fn();
 		await plugin.loadSettings();
 	});
 
@@ -50,7 +51,7 @@ describe("TodonoeaiPlugin - 統合テスト", () => {
 
 			expect(capturedCommand).toBeDefined();
 			expect(capturedCommand?.id).toBe("add-todo");
-			expect(capturedCommand?.name).toBe("Add Todo");
+			expect(capturedCommand?.name).toBe("Add todo");
 
 			// callbackが定義されていることを確認
 			expect(capturedCommand?.callback).toBeTypeOf("function");

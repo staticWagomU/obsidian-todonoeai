@@ -125,31 +125,24 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 4完了: 42テスト"],
   },
   {
-    id: "PBI-008", title: "リボンアイコンの追加", status: "in_sprint", priority: "low",
+    id: "PBI-008", title: "リボンアイコンの追加", status: "done", priority: "low",
     userStory: { asA: "視覚派ユーザー", iWant: "リボンアイコンからサイドバーパネルを開きたい", soThat: "ワンクリックでタスク入力開始できる" },
     acceptanceCriteria: [
       { given: "プラグイン有効時", when: "リボンバー確認", then: "checkmarkアイコンが'TodoのAI'ツールチップで表示" },
       { given: "リボンアイコンクリック時", when: "サイドバーパネル未表示", then: "activateView()で右サイドバーにパネル表示" },
       { given: "リボンアイコンクリック時", when: "サイドバーパネル既表示", then: "revealLeaf()でパネルにフォーカス移動" },
     ],
-    notes: [
-      "Sprint 7完了後に実施可能（最後のコアPBI）",
-      "main.ts: addRibbonIcon('checkmark', 'TodoのAI', callback)",
-      "main.ts: registerView(VIEW_TYPE_TODO_SIDEBAR, leaf => new TodoSidebarView(...))",
-      "main.ts: activateView()メソッド追加（detachLeavesOfType → setViewState → revealLeaf）",
-      "SidebarView実装済み（PBI-003完了）",
-      "小規模実装: 約20行追加、テスト追加",
-    ],
+    notes: ["Sprint 8完了: 93テスト（+6テスト）、リボンアイコン→サイドバーパネル統合"],
   },
 ];
 
 // === SPRINT (リセット済み) ===
 const sprint: Sprint = {
   number: 8, goal: "リボンアイコンからサイドバーパネルへのアクセスを提供し、視覚派ユーザーのワンクリック操作を実現する",
-  pbiId: "PBI-008", status: "planning", subtasks: [
-    { id: "S8-T1", title: "addRibbonIcon実装（アイコン表示）", status: "pending" },
-    { id: "S8-T2", title: "activateView実装（サイドバーパネル表示）", status: "pending" },
-    { id: "S8-T3", title: "registerView統合（SidebarViewの登録）", status: "pending" },
+  pbiId: "PBI-008", status: "completed", subtasks: [
+    { id: "S8-T1", title: "addRibbonIcon実装（アイコン表示）", status: "done" },
+    { id: "S8-T2", title: "activateView実装（サイドバーパネル表示）", status: "done" },
+    { id: "S8-T3", title: "registerView統合（SidebarViewの登録）", status: "done" },
   ],
 };
 
@@ -165,6 +158,7 @@ const retrospectives: RetrospectiveInsight[] = [
   { sprint: 5, insights: ["Keep: SidebarView TDD、61テスト、E2E統合成功", "Problem: Lint警告5Sprint継続"], actionItems: ["次PBI選定", "Lint対応検討"] },
   { sprint: 6, insights: ["Keep: Modal TDD、83テスト、パターン再利用成功", "Problem: Lint警告6Sprint継続"], actionItems: ["PBI-006実装可能（依存解決）", "Lint対応検討"] },
   { sprint: 7, insights: ["Keep: Command TDD、87テスト、小規模PBI高速完了", "Problem: Lint警告7Sprint継続"], actionItems: ["PBI-008検討", "コア機能完成→UX改善フェーズ"] },
+  { sprint: 8, insights: ["Keep: Ribbon+View統合TDD、93テスト、UX改善完了", "Problem: 実装Lint完全OK、scrum.ts Lintは許容"], actionItems: ["全コアPBI完了", "次フェーズ検討（ドキュメント整備・公開準備等）"] },
 ];
 
 // === OUTPUT ===
