@@ -81,7 +81,8 @@ const productBacklog: ProductBacklogItem[] = [
       "UI要素: contentEl.createEl()でDOM構築、textarea×2(入力/プレビュー)、button×2(生成/追加)",
       "状態管理: settings経由でAPI/ファイル設定取得",
       "エラー処理: Notice()による通知、ConversionResult/AppendResultで型安全処理",
-      "Sprint 5完了: 61テスト、TDDサイクル完遂",
+      "Sprint 5完了: 61テスト、TDDサイクル完遂、受け入れ基準8項目全達成",
+      "Sprint Review完了: DoD検証済(test/typecheck/build成功、lint警告はscrum.ts由来のみ)",
     ],
   },
   {
