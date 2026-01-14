@@ -89,7 +89,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 3完了: 33テスト"],
   },
   {
-    id: "PBI-005", title: "タスク入力モーダルの実装", status: "ready", priority: "medium",
+    id: "PBI-005", title: "タスク入力モーダルの実装", status: "in_sprint", priority: "medium",
     userStory: { asA: "キーボード派ユーザー", iWant: "モーダルでタスク入力したい", soThat: "素早くタスク追加できる" },
     acceptanceCriteria: [
       { given: "モーダル表示時", when: "onOpen()実行", then: "タイトル、入力textarea(4行)、変換ボタン、プレビューtextarea(readOnly,4行)、追加ボタンが表示され、入力textareaにフォーカス" },
@@ -139,10 +139,19 @@ const productBacklog: ProductBacklogItem[] = [
   },
 ];
 
-// === SPRINT (リセット済み) ===
+// === SPRINT ===
 const sprint: Sprint = {
-  number: 5, goal: "サイドバーパネルUIを実装し、自然言語入力からtodo.txt追記までのエンドツーエンド動作を実現する",
-  pbiId: "PBI-003", status: "completed", subtasks: [],
+  number: 6,
+  goal: "タスク入力モーダルを実装し、キーボード操作に最適化されたタスク追加UIを提供する",
+  pbiId: "PBI-005",
+  status: "planning",
+  subtasks: [
+    { id: "S6-T1", title: "Modal基本構造の実装（constructor, onOpen, onClose）", status: "pending" },
+    { id: "S6-T2", title: "UI要素の構築（タイトル、textarea、button、イベントハンドラ）", status: "pending" },
+    { id: "S6-T3", title: "OpenRouterClient統合（変換機能の実装）", status: "pending" },
+    { id: "S6-T4", title: "FileService統合（追記機能 + モーダルclose）", status: "pending" },
+    { id: "S6-T5", title: "エラーハンドリングと通知（Notice統合）", status: "pending" },
+  ],
 };
 
 // === IMPEDIMENTS ===
