@@ -146,7 +146,7 @@ const sprint: Sprint = {
   pbiId: "PBI-005",
   status: "planning",
   subtasks: [
-    { id: "S6-T1", title: "Modal基本構造の実装（constructor, onOpen, onClose）", status: "pending" },
+    { id: "S6-T1", title: "Modal基本構造の実装（constructor, onOpen, onClose）", status: "done" },
     { id: "S6-T2", title: "UI要素の構築（タイトル、textarea、button、イベントハンドラ）", status: "pending" },
     { id: "S6-T3", title: "OpenRouterClient統合（変換機能の実装）", status: "pending" },
     { id: "S6-T4", title: "FileService統合（追記機能 + モーダルclose）", status: "pending" },
