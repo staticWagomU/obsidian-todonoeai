@@ -61,7 +61,61 @@ export class DropdownComponent {
 	selectEl: HTMLSelectElement = {} as HTMLSelectElement;
 }
 
-export class Modal {}
+export class Modal {
+	contentEl: {
+		empty: () => void;
+		createEl: <K extends keyof HTMLElementTagNameMap>(
+			tag: K,
+			options?: unknown,
+		) => HTMLElementTagNameMap[K];
+	};
+
+	constructor(public app: unknown) {
+		this.contentEl = {
+			empty: vi.fn(),
+			createEl: vi.fn().mockImplementation((tag: string, options?: any) => {
+				if (tag === "textarea") {
+					return {
+						rows: 0,
+						style: {},
+						readOnly: false,
+						value: "",
+						placeholder: options?.placeholder || "",
+						focus: vi.fn(),
+					} as unknown as HTMLTextAreaElement;
+				}
+				if (tag === "button") {
+					return {
+						style: {},
+						textContent: options?.text || "",
+						onclick: null as (() => void) | null,
+						click: vi.fn(function (this: { onclick: (() => void) | null }) {
+							if (this.onclick) {
+								this.onclick();
+							}
+						}),
+					} as unknown as HTMLButtonElement;
+				}
+				if (tag === "h2") {
+					return {
+						textContent: options?.text || "",
+					} as unknown as HTMLHeadingElement;
+				}
+				return {
+					style: {},
+				} as HTMLElement;
+			}),
+		};
+	}
+
+	open(): void {
+		// mock
+	}
+
+	close(): void {
+		// mock
+	}
+}
 export class Notice {
 	constructor(public message: string) {}
 }
