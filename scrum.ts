@@ -125,13 +125,21 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 4完了: 42テスト"],
   },
   {
-    id: "PBI-008", title: "リボンアイコンの追加", status: "draft", priority: "low",
-    userStory: { asA: "視覚派ユーザー", iWant: "アイコンからタスク入力開始したい", soThat: "ワンクリックで開始できる" },
+    id: "PBI-008", title: "リボンアイコンの追加", status: "ready", priority: "low",
+    userStory: { asA: "視覚派ユーザー", iWant: "リボンアイコンからサイドバーパネルを開きたい", soThat: "ワンクリックでタスク入力開始できる" },
     acceptanceCriteria: [
-      { given: "プラグイン有効時", when: "サイドバー確認", then: "アイコン表示" },
-      { given: "アイコンクリック時", when: "パネル閉じている", then: "パネルが開く" },
+      { given: "プラグイン有効時", when: "リボンバー確認", then: "checkmarkアイコンが'TodoのAI'ツールチップで表示" },
+      { given: "リボンアイコンクリック時", when: "サイドバーパネル未表示", then: "activateView()で右サイドバーにパネル表示" },
+      { given: "リボンアイコンクリック時", when: "サイドバーパネル既表示", then: "revealLeaf()でパネルにフォーカス移動" },
     ],
-    notes: ["addRibbonIcon API使用"],
+    notes: [
+      "Sprint 7完了後に実施可能（最後のコアPBI）",
+      "main.ts: addRibbonIcon('checkmark', 'TodoのAI', callback)",
+      "main.ts: registerView(VIEW_TYPE_TODO_SIDEBAR, leaf => new TodoSidebarView(...))",
+      "main.ts: activateView()メソッド追加（detachLeavesOfType → setViewState → revealLeaf）",
+      "SidebarView実装済み（PBI-003完了）",
+      "小規模実装: 約20行追加、テスト追加",
+    ],
   },
 ];
 
