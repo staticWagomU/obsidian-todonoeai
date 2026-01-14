@@ -1,6 +1,7 @@
 /**
  * TodonoeaiPlugin - テスト
  */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import TodonoeaiPlugin from "./main";
 import { App } from "obsidian";
