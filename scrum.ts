@@ -103,7 +103,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 6完了: 83テスト、Modal+OpenRouterClient+FileService統合"],
   },
   {
-    id: "PBI-006", title: "コマンドパレット対応", status: "in_sprint", priority: "medium",
+    id: "PBI-006", title: "コマンドパレット対応", status: "done", priority: "medium",
     userStory: { asA: "キーボード派ユーザー", iWant: "コマンドパレットからモーダル開きたい", soThat: "マウス不要で素早く入力開始" },
     acceptanceCriteria: [
       { given: "プラグインロード時", when: "addCommand実行", then: "id='add-todo', name='Add Todo'でコマンド登録完了" },
@@ -111,10 +111,10 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "モーダル表示後", when: "タスク入力→AI変換→ファイル追加", then: "PBI-005の全機能が正常動作" },
     ],
     notes: [
+      "Sprint 7完了: 87テスト",
       "技術要件: main.ts内でthis.addCommand()使用",
       "統合: TodoModal(this.app, this.settings)で初期化",
       "PBI-005依存: TodoModal.ts完全実装済み（83テスト）",
-      "スコープ: main.tsへのコマンド追加のみ（小規模）",
     ],
   },
   {
@@ -145,7 +145,7 @@ const sprint: Sprint = {
   number: 7,
   goal: "コマンドパレット経由でTodoModal起動を可能にし、キーボード派ユーザーの操作性を向上させる",
   pbiId: "PBI-006",
-  status: "review",
+  status: "completed",
   subtasks: [
     { id: "S7-T1", title: "main.tsにaddCommandを追加してTodoModal起動を実装", status: "done" },
     { id: "S7-T2", title: "TodoModal統合の検証（コマンド→モーダル→AI変換→ファイル追加）", status: "done" },
@@ -163,6 +163,7 @@ const retrospectives: RetrospectiveInsight[] = [
   { sprint: 4, insights: ["Keep: FileService TDD、42テスト、Subtask最適化", "Problem: Lint警告4Sprint継続"], actionItems: ["PBI-003 Refinement完了→ready", "Sprint 5開始可能"] },
   { sprint: 5, insights: ["Keep: SidebarView TDD、61テスト、E2E統合成功", "Problem: Lint警告5Sprint継続"], actionItems: ["次PBI選定", "Lint対応検討"] },
   { sprint: 6, insights: ["Keep: Modal TDD、83テスト、パターン再利用成功", "Problem: Lint警告6Sprint継続"], actionItems: ["PBI-006実装可能（依存解決）", "Lint対応検討"] },
+  { sprint: 7, insights: ["Keep: Command統合TDD、87テスト、小規模PBI高速完了", "Problem: Lint警告7Sprint継続"], actionItems: ["PBI-008（リボンアイコン）検討", "コア機能完成、次はUX改善"] },
 ];
 
 // === OUTPUT ===
