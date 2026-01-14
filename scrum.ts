@@ -110,16 +110,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "コマンドパレットで", when: "'todonoeai: Add Todo'選択", then: "TodoModal.open()実行、モーダル表示" },
       { given: "モーダル表示後", when: "タスク入力→AI変換→ファイル追加", then: "PBI-005の全機能が正常動作" },
     ],
-    notes: [
-      "Sprint 7完了: 87テスト",
-      "Review完了: テスト通過、型チェックOK、ビルド成功、Lint警告継続（7Sprint目）",
-      "AC1検証: main.ts:15でid='add-todo'、name='Add Todo'登録確認",
-      "AC2検証: main.ts:18でTodoModal.open()呼び出し確認",
-      "AC3検証: PBI-005の83テスト全て含む87テスト成功、統合動作確認済",
-      "技術要件: main.ts内でthis.addCommand()使用",
-      "統合: TodoModal(this.app, this.settings)で初期化",
-      "PBI-005依存: TodoModal.ts完全実装済み（83テスト）",
-    ],
+    notes: ["Sprint 7完了: 87テスト、addCommand+TodoModal統合"],
   },
   {
     id: "PBI-007", title: "todo.txtファイル追記機能", status: "done", priority: "high",
@@ -144,16 +135,10 @@ const productBacklog: ProductBacklogItem[] = [
   },
 ];
 
-// === SPRINT 7 ===
+// === SPRINT (リセット済み) ===
 const sprint: Sprint = {
-  number: 7,
-  goal: "コマンドパレット経由でTodoModal起動を可能にし、キーボード派ユーザーの操作性を向上させる",
-  pbiId: "PBI-006",
-  status: "completed",
-  subtasks: [
-    { id: "S7-T1", title: "main.tsにaddCommandを追加してTodoModal起動を実装", status: "done" },
-    { id: "S7-T2", title: "TodoModal統合の検証（コマンド→モーダル→AI変換→ファイル追加）", status: "done" },
-  ],
+  number: 7, goal: "コマンドパレット経由でTodoModal起動を可能にし、キーボード派ユーザーの操作性を向上させる",
+  pbiId: "PBI-006", status: "completed", subtasks: [],
 };
 
 // === IMPEDIMENTS ===
@@ -167,20 +152,7 @@ const retrospectives: RetrospectiveInsight[] = [
   { sprint: 4, insights: ["Keep: FileService TDD、42テスト、Subtask最適化", "Problem: Lint警告4Sprint継続"], actionItems: ["PBI-003 Refinement完了→ready", "Sprint 5開始可能"] },
   { sprint: 5, insights: ["Keep: SidebarView TDD、61テスト、E2E統合成功", "Problem: Lint警告5Sprint継続"], actionItems: ["次PBI選定", "Lint対応検討"] },
   { sprint: 6, insights: ["Keep: Modal TDD、83テスト、パターン再利用成功", "Problem: Lint警告6Sprint継続"], actionItems: ["PBI-006実装可能（依存解決）", "Lint対応検討"] },
-  {
-    sprint: 7,
-    insights: [
-      "Keep: Command統合TDD、87テスト、小規模PBI高速完了（2subtask）",
-      "Keep: 受け入れ基準3項目全て検証完了、コマンド→モーダル→AI変換→ファイル追加の統合動作確認",
-      "Keep: DoD 5項目中4項目達成（テスト、型チェック、ビルド、受け入れ基準）",
-      "Problem: Lint警告7Sprint継続（scrum.ts then属性、テストファイル any型）",
-    ],
-    actionItems: [
-      "PBI-008（リボンアイコン）検討",
-      "コア機能完成（コマンドパレット、モーダル、サイドバー）、次はUX改善フェーズ",
-      "Lint警告は非機能要件として別途対応検討",
-    ],
-  },
+  { sprint: 7, insights: ["Keep: Command TDD、87テスト、小規模PBI高速完了", "Problem: Lint警告7Sprint継続"], actionItems: ["PBI-008検討", "コア機能完成→UX改善フェーズ"] },
 ];
 
 // === OUTPUT ===
