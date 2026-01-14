@@ -139,11 +139,7 @@ const productBacklog: ProductBacklogItem[] = [
 // === SPRINT (リセット済み) ===
 const sprint: Sprint = {
   number: 8, goal: "リボンアイコンからサイドバーパネルへのアクセスを提供し、視覚派ユーザーのワンクリック操作を実現する",
-  pbiId: "PBI-008", status: "completed", subtasks: [
-    { id: "S8-T1", title: "addRibbonIcon実装（アイコン表示）", status: "done" },
-    { id: "S8-T2", title: "activateView実装（サイドバーパネル表示）", status: "done" },
-    { id: "S8-T3", title: "registerView統合（SidebarViewの登録）", status: "done" },
-  ],
+  pbiId: "PBI-008", status: "completed", subtasks: [],
 };
 
 // === IMPEDIMENTS ===
