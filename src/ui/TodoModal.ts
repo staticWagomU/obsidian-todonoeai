@@ -6,6 +6,7 @@
 import { Modal, Notice, type App } from "obsidian";
 import type { PluginSettings } from "../types/index";
 import { OpenRouterClient } from "../api/openrouter";
+import { FileService } from "../services/fileService";
 
 /**
  * TodoModal - タスク入力用モーダル
@@ -17,8 +18,14 @@ export class TodoModal extends Modal {
 	private addButton?: HTMLButtonElement;
 	private settings?: PluginSettings;
 	private openRouterClient?: OpenRouterClient;
+	private fileService?: FileService;
 
-	constructor(app: App, settings?: PluginSettings, openRouterClient?: OpenRouterClient) {
+	constructor(
+		app: App,
+		settings?: PluginSettings,
+		openRouterClient?: OpenRouterClient,
+		fileService?: FileService
+	) {
 		super(app);
 		this.settings = settings;
 
@@ -31,12 +38,21 @@ export class TodoModal extends Modal {
 				model: settings.model,
 			});
 		}
+
+		if (fileService) {
+			this.fileService = fileService;
+		} else if (settings) {
+			this.fileService = new FileService({
+				vault: app.vault,
+				settings: settings,
+			});
+		}
 	}
 
 	/**
 	 * モーダルを開いたときの処理
 	 */
-	async onOpen(): Promise<void> {
+	onOpen(): void {
 		const { contentEl } = this;
 		contentEl.empty();
 
@@ -68,6 +84,9 @@ export class TodoModal extends Modal {
 		this.addButton = contentEl.createEl("button", {
 			text: "ファイルに追加",
 		});
+		this.addButton.onclick = async () => {
+			await this.handleAdd();
+		};
 
 		// 入力textareaにフォーカス
 		this.inputTextarea.focus();
@@ -76,7 +95,7 @@ export class TodoModal extends Modal {
 	/**
 	 * モーダルを閉じたときの処理
 	 */
-	async onClose(): Promise<void> {
+	onClose(): void {
 		const { contentEl } = this;
 		contentEl.empty();
 	}
@@ -100,6 +119,37 @@ export class TodoModal extends Modal {
 			this.previewTextarea.value = result.todoText;
 		} else if (!result.success) {
 			new Notice(`変換エラー: ${result.error || "Unknown error"}`);
+		}
+	}
+
+	/**
+	 * 追加ボタンクリック時の処理
+	 */
+	private async handleAdd(): Promise<void> {
+		if (!this.fileService) {
+			return;
+		}
+
+		const todoText = this.previewTextarea?.value || "";
+		if (!todoText) {
+			return;
+		}
+
+		const result = await this.fileService.appendToFile(todoText);
+
+		if (result.success) {
+			new Notice("タスクを追加しました");
+			// 成功時は入力欄とプレビュー欄をクリア
+			if (this.inputTextarea) {
+				this.inputTextarea.value = "";
+			}
+			if (this.previewTextarea) {
+				this.previewTextarea.value = "";
+			}
+			// モーダルを閉じる
+			this.close();
+		} else {
+			new Notice(`追加エラー: ${result.error || "Unknown error"}`);
 		}
 	}
 }
