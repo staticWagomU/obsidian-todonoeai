@@ -125,7 +125,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 4完了: 42テスト"],
   },
   {
-    id: "PBI-008", title: "リボンアイコンの追加", status: "ready", priority: "low",
+    id: "PBI-008", title: "リボンアイコンの追加", status: "in_sprint", priority: "low",
     userStory: { asA: "視覚派ユーザー", iWant: "リボンアイコンからサイドバーパネルを開きたい", soThat: "ワンクリックでタスク入力開始できる" },
     acceptanceCriteria: [
       { given: "プラグイン有効時", when: "リボンバー確認", then: "checkmarkアイコンが'TodoのAI'ツールチップで表示" },
@@ -145,8 +145,12 @@ const productBacklog: ProductBacklogItem[] = [
 
 // === SPRINT (リセット済み) ===
 const sprint: Sprint = {
-  number: 7, goal: "コマンドパレット経由でTodoModal起動を可能にし、キーボード派ユーザーの操作性を向上させる",
-  pbiId: "PBI-006", status: "completed", subtasks: [],
+  number: 8, goal: "リボンアイコンからサイドバーパネルへのアクセスを提供し、視覚派ユーザーのワンクリック操作を実現する",
+  pbiId: "PBI-008", status: "planning", subtasks: [
+    { id: "S8-T1", title: "addRibbonIcon実装（アイコン表示）", status: "pending" },
+    { id: "S8-T2", title: "activateView実装（サイドバーパネル表示）", status: "pending" },
+    { id: "S8-T3", title: "registerView統合（SidebarViewの登録）", status: "pending" },
+  ],
 };
 
 // === IMPEDIMENTS ===
