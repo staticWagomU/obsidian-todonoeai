@@ -62,9 +62,79 @@ export class DropdownComponent {
 }
 
 export class Modal {}
-export class Notice {}
+export class Notice {
+	constructor(public message: string) {}
+}
 export class MarkdownView {}
 export class Editor {}
+
+export class ItemView {
+	leaf: unknown;
+	containerEl: {
+		empty: () => void;
+		createEl: <K extends keyof HTMLElementTagNameMap>(
+			tag: K,
+			options?: unknown,
+		) => HTMLElementTagNameMap[K];
+		createDiv: (options?: { cls?: string }) => HTMLDivElement;
+	};
+
+	constructor(leaf: unknown) {
+		this.leaf = leaf;
+		this.containerEl = {
+			empty: vi.fn(),
+			createEl: vi.fn().mockImplementation((tag: string) => {
+				// タグに応じた最小限のモックを返す
+				if (tag === "textarea") {
+					return {
+						rows: 0,
+						style: {},
+						readOnly: false,
+						value: "",
+					} as HTMLTextAreaElement;
+				}
+				if (tag === "button") {
+					const button = {
+						style: {},
+						onclick: null as (() => void) | null,
+						click: vi.fn(function (this: { onclick: (() => void) | null }) {
+							if (this.onclick) {
+								this.onclick();
+							}
+						}),
+					};
+					return button as unknown as HTMLButtonElement;
+				}
+				return {
+					style: {},
+				} as HTMLElement;
+			}),
+			createDiv: vi.fn().mockReturnValue({} as HTMLDivElement),
+		};
+	}
+
+	getViewType(): string {
+		return "";
+	}
+
+	getDisplayText(): string {
+		return "";
+	}
+
+	getIcon(): string {
+		return "";
+	}
+
+	async onOpen(): Promise<void> {
+		// mock
+	}
+
+	async onClose(): Promise<void> {
+		// mock
+	}
+}
+
+export class WorkspaceLeaf {}
 
 // Vault Mock for testing
 export interface Vault {

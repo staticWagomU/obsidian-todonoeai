@@ -206,10 +206,11 @@ describe("OpenRouterClient", () => {
 			// fetchの引数を確認
 			const fetchCall = mockFetch.mock.calls[0];
 			expect(fetchCall).toBeDefined();
-			if (!fetchCall) return;
+			if (!fetchCall || !fetchCall[1]) return;
 
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-			const requestBody = JSON.parse(fetchCall[1].body as string) as {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+			const bodyString: string = fetchCall[1].body as string;
+			const requestBody = JSON.parse(bodyString) as {
 				messages: Array<{ role: string; content: string }>;
 			};
 

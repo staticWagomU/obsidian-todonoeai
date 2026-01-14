@@ -63,7 +63,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 2完了: 26テスト"],
   },
   {
-    id: "PBI-003", title: "サイドバーパネルUIの実装", status: "in_sprint", priority: "high",
+    id: "PBI-003", title: "サイドバーパネルUIの実装", status: "done", priority: "high",
     userStory: { asA: "ユーザー", iWant: "サイドバーからタスク入力したい", soThat: "作業中断せずタスク追加できる" },
     acceptanceCriteria: [
       { given: "プラグインロード時", when: "ItemView登録", then: "VIEW_TYPEでregisterView完了" },
@@ -81,6 +81,7 @@ const productBacklog: ProductBacklogItem[] = [
       "UI要素: contentEl.createEl()でDOM構築、textarea×2(入力/プレビュー)、button×2(生成/追加)",
       "状態管理: settings経由でAPI/ファイル設定取得",
       "エラー処理: Notice()による通知、ConversionResult/AppendResultで型安全処理",
+      "Sprint 5完了: 61テスト、TDDサイクル完遂",
     ],
   },
   {
@@ -136,37 +137,37 @@ const productBacklog: ProductBacklogItem[] = [
   },
 ];
 
-// === SPRINT 5 (Planning) ===
+// === SPRINT 5 (Completed) ===
 const sprint: Sprint = {
   number: 5,
   goal: "サイドバーパネルUIを実装し、自然言語入力からtodo.txt追記までのエンドツーエンド動作を実現する",
   pbiId: "PBI-003",
-  status: "planning",
+  status: "completed",
   subtasks: [
     {
       id: "S5-T1",
       title: "ItemView基本構造とViewType登録の実装",
-      status: "pending",
+      status: "done",
     },
     {
       id: "S5-T2",
       title: "UI要素構築（textarea、button）の実装",
-      status: "pending",
+      status: "done",
     },
     {
       id: "S5-T3",
       title: "OpenRouterClient統合（変換機能）の実装",
-      status: "pending",
+      status: "done",
     },
     {
       id: "S5-T4",
       title: "FileService統合（追記機能）の実装",
-      status: "pending",
+      status: "done",
     },
     {
       id: "S5-T5",
       title: "エラーハンドリングと通知機能の実装",
-      status: "pending",
+      status: "done",
     },
   ],
 };
@@ -180,6 +181,7 @@ const retrospectives: RetrospectiveInsight[] = [
   { sprint: 2, insights: ["Keep: UI TDD、26テスト", "Problem: Lint未対処"], actionItems: ["PBI-004/007 Refinement"] },
   { sprint: 3, insights: ["Keep: API TDD、33テスト", "Problem: Lint警告継続"], actionItems: ["PBI-007/003 Refinement"] },
   { sprint: 4, insights: ["Keep: FileService TDD、42テスト、Subtask最適化", "Problem: Lint警告4Sprint継続"], actionItems: ["PBI-003 Refinement完了→ready", "Sprint 5開始可能"] },
+  { sprint: 5, insights: ["Keep: SidebarView TDD、61テスト、エンドツーエンド統合成功", "Problem: scrum.ts lint警告継続"], actionItems: ["PBI-003完了、次PBI選定"] },
 ];
 
 // === OUTPUT ===
