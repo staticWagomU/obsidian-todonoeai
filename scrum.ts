@@ -103,12 +103,19 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 6完了: 83テスト、Modal+OpenRouterClient+FileService統合"],
   },
   {
-    id: "PBI-006", title: "コマンドパレット対応", status: "draft", priority: "medium",
+    id: "PBI-006", title: "コマンドパレット対応", status: "ready", priority: "medium",
     userStory: { asA: "キーボード派ユーザー", iWant: "コマンドパレットからモーダル開きたい", soThat: "マウス不要で素早く入力開始" },
     acceptanceCriteria: [
-      { given: "コマンドパレットで", when: "todonoeai: Add Todo選択", then: "モーダルが開く" },
+      { given: "プラグインロード時", when: "addCommand実行", then: "id='add-todo', name='Add Todo'でコマンド登録完了" },
+      { given: "コマンドパレットで", when: "'todonoeai: Add Todo'選択", then: "TodoModal.open()実行、モーダル表示" },
+      { given: "モーダル表示後", when: "タスク入力→AI変換→ファイル追加", then: "PBI-005の全機能が正常動作" },
     ],
-    notes: ["addCommand API使用", "PBI-005依存"],
+    notes: [
+      "技術要件: main.ts内でthis.addCommand()使用",
+      "統合: TodoModal(this.app, this.settings)で初期化",
+      "PBI-005依存: TodoModal.ts完全実装済み（83テスト）",
+      "スコープ: main.tsへのコマンド追加のみ（小規模）",
+    ],
   },
   {
     id: "PBI-007", title: "todo.txtファイル追記機能", status: "done", priority: "high",
