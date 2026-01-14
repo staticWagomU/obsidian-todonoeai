@@ -89,7 +89,7 @@ const productBacklog: ProductBacklogItem[] = [
     notes: ["Sprint 3完了: 33テスト"],
   },
   {
-    id: "PBI-005", title: "タスク入力モーダルの実装", status: "in_sprint", priority: "medium",
+    id: "PBI-005", title: "タスク入力モーダルの実装", status: "done", priority: "medium",
     userStory: { asA: "キーボード派ユーザー", iWant: "モーダルでタスク入力したい", soThat: "素早くタスク追加できる" },
     acceptanceCriteria: [
       { given: "モーダル表示時", when: "onOpen()実行", then: "タイトル、入力textarea(4行)、変換ボタン、プレビューtextarea(readOnly,4行)、追加ボタンが表示され、入力textareaにフォーカス" },
@@ -100,13 +100,7 @@ const productBacklog: ProductBacklogItem[] = [
       { given: "モーダル表示中", when: "Escキー押下", then: "モーダルclose()（Obsidian標準動作）" },
       { given: "モーダル閉じる時", when: "onClose()実行", then: "contentEl.empty()でクリーンアップ" },
     ],
-    notes: [
-      "Modal API使用: constructor(app), onOpen(), onClose(), contentEl",
-      "SidebarView.tsと同様のUI構成・イベントハンドラパターン適用",
-      "OpenRouterClient、FileService統合パターン再利用",
-      "test-setup.ts L64にModalモック定義済み",
-      "TDD: SidebarView 61テストと同等の網羅性目標",
-    ],
+    notes: ["Sprint 6完了: 83テスト、Modal+OpenRouterClient+FileService統合"],
   },
   {
     id: "PBI-006", title: "コマンドパレット対応", status: "draft", priority: "medium",
@@ -144,7 +138,7 @@ const sprint: Sprint = {
   number: 6,
   goal: "タスク入力モーダルを実装し、キーボード操作に最適化されたタスク追加UIを提供する",
   pbiId: "PBI-005",
-  status: "planning",
+  status: "completed",
   subtasks: [
     { id: "S6-T1", title: "Modal基本構造の実装（constructor, onOpen, onClose）", status: "done" },
     { id: "S6-T2", title: "UI要素の構築（タイトル、textarea、button、イベントハンドラ）", status: "done" },
@@ -164,6 +158,7 @@ const retrospectives: RetrospectiveInsight[] = [
   { sprint: 3, insights: ["Keep: API TDD、33テスト", "Problem: Lint警告継続"], actionItems: ["PBI-007/003 Refinement"] },
   { sprint: 4, insights: ["Keep: FileService TDD、42テスト、Subtask最適化", "Problem: Lint警告4Sprint継続"], actionItems: ["PBI-003 Refinement完了→ready", "Sprint 5開始可能"] },
   { sprint: 5, insights: ["Keep: SidebarView TDD、61テスト、E2E統合成功", "Problem: Lint警告5Sprint継続"], actionItems: ["次PBI選定", "Lint対応検討"] },
+  { sprint: 6, insights: ["Keep: Modal TDD、22テスト、合計83テスト達成", "Problem: Lint警告6Sprint継続"], actionItems: ["PBI-006 Refinement", "Lint対応検討"] },
 ];
 
 // === OUTPUT ===
